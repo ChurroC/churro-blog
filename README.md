@@ -26,3 +26,8 @@ You can check out the [create-t3-app GitHub repository](https://github.com/t3-os
 ## How do I deploy this?
 
 Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+
+Churro Standards:
+Going to have folder for each component to keep everything seperate and if a component has client and server interveaing I can keep it all in one folder
+Hooks are useComponent.hook.js
+Going to use bun and everything new to bleed irresponsibly
