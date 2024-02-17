@@ -1,8 +1,9 @@
-dist
+.git
+.svn
+.hg
 node_modules
-package-lock.json
-package.json
-.next
 build
-.contentlayer
-.md
+.next
+.dist
+*.md
+*.config.*

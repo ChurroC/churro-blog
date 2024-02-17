@@ -1,3 +1,3 @@
 export default function HomePage() {
-    return "hi";
+    return <div className="bg-green-300 h-80">This is a webapge</div>;
 }
