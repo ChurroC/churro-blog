@@ -33,3 +33,15 @@ Going to have folder for each component to keep everything seperate and if a com
 Use bun run add COMPONENT_NAME to create a new component in a folder
 Hooks are useComponent.hook.js
 Going to use bun and everything new to bleed irresponsibly
+
+Sites as rolemodels:
+https://nextjs.org
+https://turbo.build/pack
+https://www.joshwcomeau.com
+
+Tools:
+https://create.t3.gg/en/introduction
+https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+https://tailwindcss.com/docs/
+https://heroicons.com
+https://vercel.com/font

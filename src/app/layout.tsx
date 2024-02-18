@@ -5,7 +5,6 @@ import "./globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
-// GeistSans: --font-geist-sans
 // GeistMono: --font-geist-mono
 // font-family: var(--font-geist-mono) as an example
 
