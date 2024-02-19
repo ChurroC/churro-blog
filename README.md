@@ -32,7 +32,7 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 Going to have folder for each component to keep everything seperate and if a component has client and server interveaing I can keep it all in one folder
 Use bun run add COMPONENT_NAME to create a new component in a folder
 Hooks are useComponent.hook.js
-Going to use bun and everything new to bleed irresponsibly
+Going to use bun and turbopack to bleed irresponsibly
 
 Sites as rolemodels:
 https://nextjs.org
