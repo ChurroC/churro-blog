@@ -10,7 +10,10 @@ import { GithubIcon } from "./icons/githubIcon";
 export function Header() {
     return (
         // Frosted glass header need white bg with .08 opacity
-        <header className="sticky top-0 w-full border-b px-6 backdrop-blur bg-white/65 flex justify-center">
+        <header
+            className="sticky top-0 w-full border-b px-6 backdrop-blur flex justify-center bg-white/65
+        dark:bg-black/80 dark:border-gray-800"
+        >
             <nav className="flex justify-between max-w-screen-xl w-full">
                 {/* Left flexbox container */}
                 <div className="container flex h-16 items-center gap-6">
@@ -24,27 +27,23 @@ export function Header() {
                     <MainNav
                         routes={[
                             {
-                                title: "Features",
-                                href: "/#features"
+                                title: "Teams 23-24",
+                                href: "/current-robots"
                             },
                             {
-                                title: "Pricing",
+                                title: "Team Archive",
                                 href: "/pricing"
                             },
                             {
                                 title: "Blog",
                                 href: "/blog"
-                            },
-                            {
-                                title: "Documentation",
-                                href: "/docs"
                             }
                         ]}
                     />
                 </div>
                 {/* Right flexbox container */}
                 {/* Need light mode, lanugage, upload, github */}
-                <div className="flex gap-4 items-center justify-end">
+                <div className="flex gap-4 items-center justify-end ">
                     <LanguagePicker />
                     <DarkModeIcon />
                     <GithubIcon />

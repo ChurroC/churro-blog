@@ -7,7 +7,7 @@ export function HeaderIcon({
 }) {
     return (
         <div
-            className={`h-8 flex justify-center items-center border rounded-md border-gray-300 ${className}`}
+            className={`h-8 flex justify-center items-center border rounded-md border-gray-300 fill-neutral-900 text-neutral-900 ${className}`}
         >
             {children}
         </div>

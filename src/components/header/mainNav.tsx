@@ -18,7 +18,7 @@ export function MainNav({
                 return (
                     <Link
                         href={`${href}`}
-                        className={`${href.toUpperCase().startsWith(`/${segment?.toUpperCase()}`) ? "text-foreground" : "text-foreground/60"} text-sm text-gray-500`}
+                        className={`${href.toUpperCase().startsWith(`/${segment?.toUpperCase()}`) ? "text-neutral-800 font-medium" : ""} text-sm text-neutral-500`}
                         key={i}
                     >
                         {title}
