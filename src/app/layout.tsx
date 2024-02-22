@@ -26,6 +26,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
+        // Current idea is to have a script tag inside body that sets the theme to not have FOUC
         <html lang="en" className="dark">
             <body
                 className={`${GeistSans.className} ${GeistMono.variable} bg-white dark:bg-black`}

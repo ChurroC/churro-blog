@@ -45,3 +45,11 @@ https://css-tricks.com/snippets/css/a-guide-to-flexbox/
 https://tailwindcss.com/docs/
 https://heroicons.com
 https://vercel.com/font
+
+## Need to do (ramblings in my mind):
+
+get state working for theme. Have system, light, and dark. using context with local storage which used has mounted and debounce.
+mayeb have to add script tag to try to change css varibale to dark mode before body executes using script tag in body
+for header start doing dropdowns for lang which has a searchable option and theme.
+Maybe add an animation to sun to moon.
+also actually get color in for dark mode.
