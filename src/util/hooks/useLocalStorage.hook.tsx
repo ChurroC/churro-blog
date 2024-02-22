@@ -1,5 +1,7 @@
+"use client";
+
 import { useEffect, useState } from "react";
-import { useHasMounted } from "./useHasMounted.hook";
+import { useHasMounted, useIsMounted } from "./useHasMounted.hook";
 import { debounce } from "@/util/helpers/debounce.helper";
 
 // basic utility hook to get local storage - Josh Comeau
@@ -9,11 +11,13 @@ export function useLocalStorage<T>(
     key: string,
     defaultValue?: any,
     debounceTime?: number
-): [T, ((value: T) => void) | null] {
+): [T, (value: T) => void] {
     // dont need setValue before page has mounted and no user input
-    if (!useHasMounted()) return [defaultValue, null];
+    const isMounted = useIsMounted();
 
     const [value, setValue] = useState(() => {
+        console.log("useLocalStorage: hasMounted", isMounted);
+        if (!isMounted) return defaultValue;
         const localValue = localStorage.getItem(key);
         return localValue !== null ? JSON.parse(localValue) : defaultValue;
     });

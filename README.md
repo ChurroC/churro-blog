@@ -53,3 +53,4 @@ mayeb have to add script tag to try to change css varibale to dark mode before b
 for header start doing dropdowns for lang which has a searchable option and theme.
 Maybe add an animation to sun to moon.
 also actually get color in for dark mode.
+Issue with moutning. Since it render first then use effect gets called so no a is moutn but has mount. This means local sotrage gets reset.
