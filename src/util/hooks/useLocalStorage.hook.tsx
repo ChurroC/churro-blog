@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useDebounce } from "@/util/helpers/useDebounce.helper";
+import { useHasMounted } from "@/util/hooks/useHasMounted";
 
 // basic utility hook to get local storage - Josh Comeau
 // modified a bit by me for ssr
@@ -18,21 +19,25 @@ export function useLocalStorage<T>(
     // try catch - but this causes rehydration error since the server and client are out of sync
     // or the window defined
 
-    const [value, setValue] = useState<T>(() => {
-        const localValue = localStorage.getItem(key);
-        return (
-            localValue !== null ? JSON.parse(localValue) : defaultValue
-        ) as T;
-    });
+    const [value, setValue] = useState<T>(defaultValue);
 
-    useEffect(
-        // debounce returns a function so need to use arrow function
-        // basically value and change and be repsonsive the second the value is changed but it only updated localstorage every debounceTime
+    if (useHasMounted()) {
+        // once page is mounted get key
+        const localValue = localStorage.getItem(key);
+        if (localValue !== null) {
+            // if there is a value in localstorage set it to our reactive value
+            setValue(JSON.parse(localValue) as T);
+        }
+    }
+
+    useEffect(() => {
+        console.log("use effect for key and value change.");
         useDebounce<() => void>(() => {
             localStorage.setItem(key, JSON.stringify(value));
-        }, debounceTime),
-        [key, value]
-    );
+        }, debounceTime);
+    }, [key, value]);
+
+    // basically value and change and be repsonsive the second the value is changed but it only updated localstorage every debounceTime
 
     return [value, setValue];
 }
