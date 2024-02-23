@@ -29,8 +29,8 @@ Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/ver
 
 ## Churro Standards:
 
-Going to have folder for each component to keep everything seperate and if a component has client and server interveaing I can keep it all in one folder
-Use bun run add COMPONENT_NAME to create a new component in a folder
+Going to have folder for each component to keep everything seperate and if a component has client and server interveaing I can keep it all in one folder. This also allows for easy dynamic no ssr imports in baralleling.
+Use bun run add COMPONENT_NAME to create a new component in a folder. Use --dir for having folder in places like Context. 
 Hooks are useComponent.hook.js
 Going to use bun and turbopack to bleed irresponsibly
 

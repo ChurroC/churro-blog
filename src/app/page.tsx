@@ -1,7 +1,6 @@
 import { Test } from "@/components/test";
 
 export default function HomePage() {
-    console.log("shsui");
     return (
         <>
             <div className="h-[200vh] text-neutral-700">

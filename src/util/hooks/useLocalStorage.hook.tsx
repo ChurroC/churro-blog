@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { debounce } from "@/util/helpers/debounce.helper";
+import { useDebounce } from "@/util/helpers/useDebounce.helper";
 
 // basic utility hook to get local storage - Josh Comeau
 // modified a bit by me for ssr
@@ -26,7 +26,7 @@ export function useLocalStorage<T>(
     useEffect(
         // debounce returns a function so need to use arrow function
         // basically value and change and be repsonsive the second the value is changed but it only updated localstorage every debounceTime
-        debounce(() => {
+        useDebounce<() => void>(() => {
             localStorage.setItem(key, JSON.stringify(value));
         }, debounceTime),
         [key, value]

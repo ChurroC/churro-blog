@@ -13,19 +13,10 @@ import { GeistMono } from "geist/font/mono";
 
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
+// No ssr
+import { ThemeProvider } from "@/util/contexts/theme";
 
-import dynamic from "next/dynamic";
 import Script from "next/script";
-
-const ThemeProvider = dynamic(
-    async () => {
-        const { ThemeProvider } = await import("@/util/contexts/theme.context");
-        return ThemeProvider;
-    },
-    {
-        ssr: false
-    }
-);
 
 export const metadata = {
     title: "Create T3 App",

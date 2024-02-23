@@ -1,5 +1,5 @@
 "use client";
-import { useTheme } from "@/util/contexts/theme.context";
+import { useTheme } from "@/util/contexts/theme";
 
 export function Test() {
     const [theme, setTheme] = useTheme();
