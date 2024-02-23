@@ -8,7 +8,7 @@ import { useDebounce } from "@/util/helpers/useDebounce.helper";
 // also add debounce for fun so even though the ui will change the localstorage will only update every 250ms
 export function useLocalStorage<T>(
     key: string,
-    defaultValue: any,
+    defaultValue: T,
     debounceTime: number = 0
 ): [T, (value: T) => void] {
     // dont need setValue before page has mounted and no user input
@@ -18,9 +18,11 @@ export function useLocalStorage<T>(
     // try catch - but this causes rehydration error since the server and client are out of sync
     // or the window defined
 
-    const [value, setValue] = useState(() => {
+    const [value, setValue] = useState<T>(() => {
         const localValue = localStorage.getItem(key);
-        return localValue !== null ? JSON.parse(localValue) : defaultValue;
+        return (
+            localValue !== null ? JSON.parse(localValue) : defaultValue
+        ) as T;
     });
 
     useEffect(
