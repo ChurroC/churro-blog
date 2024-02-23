@@ -9,7 +9,6 @@ export function useHasMounted() {
     const [hasMounted, setHasMounted] = useState(false);
 
     useEffect(() => {
-        console.log("hji");
         setHasMounted(true);
     }, []);
 

@@ -8,7 +8,7 @@ import { debounce } from "@/util/helpers/debounce.helper";
 // also add debounce for fun so even though the ui will change the localstorage will only update every 250ms
 export function useLocalStorage<T>(
     key: string,
-    defaultValue: any = null,
+    defaultValue: any,
     debounceTime: number = 0
 ): [T, (value: T) => void] {
     // dont need setValue before page has mounted and no user input
@@ -19,16 +19,13 @@ export function useLocalStorage<T>(
     // or the window defined
 
     const [value, setValue] = useState(() => {
-        try {
-            const localValue = localStorage.getItem(key);
-            return localValue !== null ? JSON.parse(localValue) : defaultValue;
-        } catch {
-            return defaultValue;
-        }
+        const localValue = localStorage.getItem(key);
+        return localValue !== null ? JSON.parse(localValue) : defaultValue;
     });
 
     useEffect(
         // debounce returns a function so need to use arrow function
+        // basically value and change and be repsonsive the second the value is changed but it only updated localstorage every debounceTime
         debounce(() => {
             localStorage.setItem(key, JSON.stringify(value));
         }, debounceTime),

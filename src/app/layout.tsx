@@ -14,10 +14,17 @@ import { GeistMono } from "geist/font/mono";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 
-import { noSSRImport } from "@/util/helpers/noSSR.helper";
+import dynamic from "next/dynamic";
+import Script from "next/script";
 
-const ThemeProvider = noSSRImport<{ children: React.ReactNode }>(
-    "@/util/contexts/theme.context"
+const ThemeProvider = dynamic(
+    async () => {
+        const { ThemeProvider } = await import("@/util/contexts/theme.context");
+        return ThemeProvider;
+    },
+    {
+        ssr: false
+    }
 );
 
 export const metadata = {
@@ -33,7 +40,10 @@ export default function RootLayout({
 }) {
     // Current idea is to have a script tag inside body that sets the theme to not have FOUC
     return (
-        <html lang="en" className="dsark">
+        <html lang="en">
+            <head>
+                <Script src="/theme.js" strategy="beforeInteractive" />
+            </head>
             <body
                 className={`${GeistSans.className} ${GeistMono.variable} bg-white dark:bg-black`}
             >
