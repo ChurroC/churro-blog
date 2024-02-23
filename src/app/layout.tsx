@@ -13,7 +13,12 @@ import { GeistMono } from "geist/font/mono";
 
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { ThemeProvider } from "@/util/contexts/theme.context";
+
+import { noSSRImport } from "@/util/helpers/noSSR.helper";
+
+const ThemeProvider = noSSRImport<{ children: React.ReactNode }>(
+    "@/util/contexts/theme.context"
+);
 
 export const metadata = {
     title: "Create T3 App",
@@ -29,15 +34,15 @@ export default function RootLayout({
     // Current idea is to have a script tag inside body that sets the theme to not have FOUC
     return (
         <html lang="en" className="dsark">
-            <ThemeProvider>
-                <body
-                    className={`${GeistSans.className} ${GeistMono.variable} bg-white dark:bg-black`}
-                >
+            <body
+                className={`${GeistSans.className} ${GeistMono.variable} bg-white dark:bg-black`}
+            >
+                <ThemeProvider>
                     <Header />
                     {children}
                     <Footer />
-                </body>
-            </ThemeProvider>
+                </ThemeProvider>
+            </body>
         </html>
     );
 }

@@ -1,10 +1,10 @@
 "use client";
 
-import { createContext, use, useContext } from "react";
+import { createContext, useContext } from "react";
 import { useLocalStorage } from "@/util/hooks/useLocalStorage.hook";
 
 // sketch
-export const ThemeContext = createContext<[string, (theme: string) => void]>([
+const ThemeContext = createContext<[string, (theme: string) => void]>([
     "system",
     null as unknown as (theme: string) => void
 ]);
@@ -24,3 +24,5 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 export function useTheme(): [string, (theme: string) => void] {
     return useContext(ThemeContext);
 }
+
+export default ThemeProvider;
