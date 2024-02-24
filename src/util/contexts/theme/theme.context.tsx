@@ -20,7 +20,7 @@ const ThemeContext = createContext<[string, (theme: string) => void]>([
 // it won't change the classes until the second render since the effect in useLocalStorage has to switch the theme state to sync with localstorage then the class code start
 // once both are in sync the classes will be added and removed
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useLocalStorage<string>("theme", "system", 250);
+    const [theme, setTheme] = useLocalStorage<string>("theme", "system", 2000);
 
     if (useHasMounted()) {
         if (
@@ -28,8 +28,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
             (theme === "system" &&
                 window.matchMedia("(prefers-color-scheme: dark)").matches)
         ) {
+            console.log("dark mode");
             document.body.classList.add("dark");
         } else {
+            console.log("light mode");
             document.body.classList.remove("dark");
         }
     }

@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useDebounce } from "@/util/helpers/useDebounce.helper";
-import { useHasMounted } from "@/util/hooks/useHasMounted";
+import { useCallback, useEffect, useState } from "react";
+import { debounce } from "@/util/helpers/debounce.helper";
 
 // basic utility hook to get local storage - Josh Comeau
 // modified a bit by me for ssr
@@ -21,20 +20,26 @@ export function useLocalStorage<T>(
 
     const [value, setValue] = useState<T>(defaultValue);
 
-    if (useHasMounted()) {
+    useEffect(() => {
+        console.log("useLocalStorage has mounted");
         // once page is mounted get key
         const localValue = localStorage.getItem(key);
         if (localValue !== null) {
             // if there is a value in localstorage set it to our reactive value
             setValue(JSON.parse(localValue) as T);
         }
-    }
+    }, []);
 
+    // This was stupid but I got it to work
+    // Basically the problem I had was the the intial value of system was being used and saved with the useCallback
+    // I now have a value that is passed down so the timeouts in the function stays the same.
+    const debounceFn = useCallback((value: T) => {
+        debounce<(valueInDebounce: T) => void>((valueInDebounce: T) => {
+            localStorage.setItem(key, JSON.stringify(valueInDebounce));
+        }, debounceTime)(value);
+    }, []);
     useEffect(() => {
-        console.log("use effect for key and value change.");
-        useDebounce<() => void>(() => {
-            localStorage.setItem(key, JSON.stringify(value));
-        }, debounceTime);
+        debounceFn(value);
     }, [key, value]);
 
     // basically value and change and be repsonsive the second the value is changed but it only updated localstorage every debounceTime
