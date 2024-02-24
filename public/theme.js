@@ -9,3 +9,4 @@ if (
 } else {
     document.documentElement.classList.remove("dark");
 }
+alert("theme.js ran");

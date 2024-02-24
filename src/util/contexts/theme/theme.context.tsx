@@ -22,8 +22,10 @@ const ThemeContext = createContext<[string, (theme: string) => void]>([
 
 // It is going to be system first render then light or dark on second render
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useLocalStorage<string>("theme", "system", 2000);
+    const [theme, setTheme] = useLocalStorage<string>("theme", "system");
 
+    // doesn't actually change the theme until it mounts and syncs up with localstorage
+    // this is to prevent FOUC since the theme.js runs first
     if (useHasMounted()) {
         if (
             theme === "dark" ||

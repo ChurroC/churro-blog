@@ -15,6 +15,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 // No ssr
 import { ThemeProvider } from "@/util/contexts/theme";
+import Script from "next/script";
 
 export const metadata = {
     title: "Create T3 App",
@@ -32,6 +33,7 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <head>
                 <script type="text/javascript" src="/theme.js" />
+                <Script src="/alert.js" strategy="beforeInteractive" />
             </head>
             <body
                 className={`${GeistSans.className} ${GeistMono.variable} bg-white dark:bg-black`}

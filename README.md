@@ -54,3 +54,8 @@ for header start doing dropdowns for lang which has a searchable option and them
 Maybe add an animation to sun to moon.
 also actually get color in for dark mode.
 Issue with moutning. Since it render first then use effect gets called so no a is moutn but has mount. This means local sotrage gets reset.
+
+## Info
+
+Just for myself but useHasMounted for when you dont want one component server rendred but children server rendered like theme context.
+Use the noSSRWrapper when you don't want children server rendered either.
