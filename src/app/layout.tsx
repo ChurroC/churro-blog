@@ -32,8 +32,8 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <head>
-                <script type="text/javascript" src="/theme.js" />
-                <Script src="/alert.js" strategy="beforeInteractive" />
+                <script src="/theme.js" type="text/javascript" />
+                <Script src="/serverRender.js" strategy="beforeInteractive" />
             </head>
             <body
                 className={`${GeistSans.className} ${GeistMono.variable} bg-white dark:bg-black`}

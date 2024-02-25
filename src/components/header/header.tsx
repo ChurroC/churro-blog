@@ -8,7 +8,6 @@ import { GithubIcon } from "./icons/githubIcon";
 
 // Goal to be base of vercel's nextJs and TurboPack
 export function Header() {
-    console.log("header");
     return (
         // Frosted glass header need white bg with .08 opacity
         <header

@@ -32,9 +32,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
             (theme === "system" &&
                 window.matchMedia("(prefers-color-scheme: dark)").matches)
         ) {
-            document.body.classList.add("dark");
+            document.documentElement.classList.add("dark");
         } else {
-            document.body.classList.remove("dark");
+            console.log("light");
+            document.documentElement.classList.remove("dark");
         }
     }
 

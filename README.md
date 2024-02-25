@@ -54,6 +54,7 @@ for header start doing dropdowns for lang which has a searchable option and them
 Maybe add an animation to sun to moon.
 also actually get color in for dark mode.
 Issue with moutning. Since it render first then use effect gets called so no a is moutn but has mount. This means local sotrage gets reset.
+Try to get fusion model explosion and think of way to integrate into site [text](https://www.youtube.com/watch?v=MrIEddahJM8)
 
 ## Info
 
