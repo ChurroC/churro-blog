@@ -8,5 +8,5 @@ import { createPortal } from "react-dom";
 
 // Since this component is a child of the NoSSRWrapper component it will not be rendered on the server unless there is no use client
 export function InPortal({ children }: { children: React.ReactNode }) {
-    return createPortal(children, document.body);
+    return createPortal(<>{children}</>, document.body);
 }
