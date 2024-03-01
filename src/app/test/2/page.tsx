@@ -1,4 +1,4 @@
-import { PortalStuff } from "@/components/portalStuff";
+import { PortalStuff } from "./portalStuff";
 import { InPortal } from "@/util/helpers/inPortal";
 
 export default function HomePage() {

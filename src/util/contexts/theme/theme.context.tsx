@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext, use } from "react";
 import { useLocalStorage } from "@/util/hooks/useLocalStorage.hook";
 import { useHasMounted } from "@/util/hooks/useHasMounted";
 
@@ -46,6 +46,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     );
 }
 
-export function useTheme(): [string, (theme: string) => void] {
-    return useContext(ThemeContext);
+// call this getTheme instead of useTheme since even though it is a hook the "use" hook is weird and break the rules
+export function getTheme(): [string, (theme: string) => void] {
+    return use(ThemeContext);
 }

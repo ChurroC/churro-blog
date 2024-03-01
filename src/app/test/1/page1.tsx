@@ -1,9 +1,15 @@
 "use client";
-import { useTheme } from "@/util/contexts/theme";
+import { getTheme } from "@/util/contexts/theme";
 import { NoSSRWrapper } from "@/util/helpers/noSSRWrapper";
+import { useState } from "react";
 
 export function Page1() {
-    const [theme, setTheme] = useTheme();
+    const [themeOn, setthemeOn] = useState(false);
+
+    let [theme, setTheme] = ["theme not turned on", (test: string) => {}];
+    if (themeOn) {
+        [theme, setTheme] = getTheme();
+    }
 
     return (
         <>
@@ -11,6 +17,9 @@ export function Page1() {
             <button onClick={() => setTheme("light")}>Light</button>
             <button onClick={() => setTheme("dark")}>Dark</button>
             <button onClick={() => setTheme("system")}>System</button>
+            <button onClick={() => setthemeOn(prev => !prev)}>
+                Press_To_TUrn_On_Theme
+            </button>
             <NoSSRWrapper>
                 <Test />
             </NoSSRWrapper>
