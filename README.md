@@ -39,3 +39,5 @@ fix duplicate class issues
 Just for myself but useHasMounted for when you dont want one component server rendred but children server rendered like theme context.
 
 Use the noSSRWrapper when you don't want children server rendered either.
+
+[![wakatime](https://wakatime.com/badge/github/ChurroC/robotics.svg)](https://wakatime.com/badge/github/ChurroC/robotics)
