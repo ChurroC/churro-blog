@@ -24,39 +24,25 @@ console.log(
     )
 );
 
-const IMPORTANT_MODIFIER = "!";
-const separator = "-";
-const isSeparatorSingleCharacter = separator.length === 1;
-const firstSeparatorCharacter = separator[0];
-const separatorLength = separator.length;
 function splitModifiers(className: string) {
     const modifiers = [];
 
     let bracketDepth = 0;
     let modifierStart = 0;
-    let postfixModifierPosition: number | undefined;
+    let postfixModifierPosition = className.indexOf(":");
 
     for (let index = 0; index < className.length; index++) {
         let currentCharacter = className[index];
 
         if (bracketDepth === 0) {
-            if (
-                currentCharacter === firstSeparatorCharacter &&
-                (isSeparatorSingleCharacter ||
-                    className.slice(index, index + separatorLength) ===
-                        separator)
-            ) {
+            if (currentCharacter === ":") {
                 modifiers.push(className.slice(modifierStart, index));
-                modifierStart = index + separatorLength;
-                continue;
-            }
-
-            if (currentCharacter === "/") {
-                postfixModifierPosition = index;
+                modifierStart = index + ":".length;
                 continue;
             }
         }
 
+        // Have to add this to not count example like hover:[mask-type:alpha]
         if (currentCharacter === "[") {
             bracketDepth++;
         } else if (currentCharacter === "]") {
@@ -65,9 +51,9 @@ function splitModifiers(className: string) {
     }
 
     const baseClassNameWithImportantModifier =
-        modifiers.length === 0 ? className : className.substring(modifierStart);
+        className.substring(modifierStart);
     const hasImportantModifier =
-        baseClassNameWithImportantModifier.startsWith(IMPORTANT_MODIFIER);
+        baseClassNameWithImportantModifier.startsWith("!");
     const baseClassName = hasImportantModifier
         ? baseClassNameWithImportantModifier.substring(1)
         : baseClassNameWithImportantModifier;
@@ -85,4 +71,22 @@ function splitModifiers(className: string) {
     };
 }
 
-console.log(splitModifiers("!text-neutral-900"));
+function getClassGroupId(className: string) {
+    const classParts = className.split("-");
+
+    // Classes like `-inset-1` produce an empty string as first classPart. We assume that classes for negative values are used correctly and remove it from classParts.
+    if (classParts[0] === "" && classParts.length !== 1) {
+        classParts.shift();
+    }
+
+    return (
+        getGroupRecursive(classParts, classMap) ||
+        getGroupIdForArbitraryProperty(className)
+    );
+}
+
+// console.log(splitModifiers("focus:hover:!text-neutral-900"));
+// console.log(splitModifiers("lg:[&:nth-child(3)]:hover:underline"));
+// console.log(splitModifiers("hover:w-2/12"));
+// console.log(splitModifiers("[@media(any-hover:hover){&:hover}]:opacity-100"));
+// console.log("wow".substring(0));
