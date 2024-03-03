@@ -1,3 +1,4 @@
+// If it has a important modifier, it will be kept and I will count as different className since css priority will override it
 export function mergeClasses(classes: string): string {
     // Basically use a hasmap to keep track of seen classes
     const seenClass: { [className: string]: boolean } = {};
@@ -7,29 +8,25 @@ export function mergeClasses(classes: string): string {
         .split(" ")
         .reverse()
         .filter(className => {
-            if (seenClass[className]) {
+            // this is right to left so only the first class on right will be kept
+            const sortedClassName = classNameSorted(className);
+
+            if (seenClass[sortedClassName]) {
                 return false;
             }
 
             // Only return the class if it hasn't been seen before
-            seenClass[className] = true;
+            seenClass[sortedClassName] = true;
             return true;
         })
+        .reverse()
         .join(" ");
 }
 
-console.log(
-    mergeClasses(
-        "text-neutral-900 px-2 border-0 font-medium bg-neutral-900 text-neutral-800"
-    )
-);
-
-function splitModifiers(className: string) {
+function classNameSorted(className: string): string {
     const modifiers = [];
-
     let bracketDepth = 0;
     let modifierStart = 0;
-    let postfixModifierPosition = className.indexOf(":");
 
     for (let index = 0; index < className.length; index++) {
         let currentCharacter = className[index];
@@ -49,44 +46,50 @@ function splitModifiers(className: string) {
             bracketDepth--;
         }
     }
+    const sortedModifiers = sortModifiers(modifiers).join(":");
 
-    const baseClassNameWithImportantModifier =
-        className.substring(modifierStart);
-    const hasImportantModifier =
-        baseClassNameWithImportantModifier.startsWith("!");
+    // Added important modifier last since if there is a negative in the classPart[0] it'll be weird
+    const classWithoutModifiers = className.substring(modifierStart);
+    const hasImportantModifier = classWithoutModifiers.startsWith("!");
+
     const baseClassName = hasImportantModifier
-        ? baseClassNameWithImportantModifier.substring(1)
-        : baseClassNameWithImportantModifier;
-
-    const maybePostfixModifierPosition =
-        postfixModifierPosition && postfixModifierPosition > modifierStart
-            ? postfixModifierPosition - modifierStart
-            : undefined;
-
-    return {
-        modifiers,
-        hasImportantModifier,
-        baseClassName,
-        maybePostfixModifierPosition
-    };
-}
-
-function getClassGroupId(className: string) {
-    const classParts = className.split("-");
-
+        ? classWithoutModifiers.substring(1)
+        : classWithoutModifiers;
+    const classParts = baseClassName.split("-");
     // Classes like `-inset-1` produce an empty string as first classPart. We assume that classes for negative values are used correctly and remove it from classParts.
     if (classParts[0] === "" && classParts.length !== 1) {
         classParts.shift();
     }
+    const classNameId = classParts[0]!;
 
-    return (
-        getGroupRecursive(classParts, classMap) ||
-        getGroupIdForArbitraryProperty(className)
-    );
+    return `${sortedModifiers}:${classNameId}${hasImportantModifier ? "!" : ""}`;
 }
 
-// console.log(splitModifiers("focus:hover:!text-neutral-900"));
-// console.log(splitModifiers("lg:[&:nth-child(3)]:hover:underline"));
-// console.log(splitModifiers("hover:w-2/12"));
-// console.log(splitModifiers("[@media(any-hover:hover){&:hover}]:opacity-100"));
-// console.log("wow".substring(0));
+function sortModifiers(modifiers: string[]) {
+    if (modifiers.length <= 1) {
+        return modifiers;
+    }
+
+    const sortedModifiers: string[] = [];
+    let unsortedModifiers: string[] = [];
+
+    modifiers.forEach(modifier => {
+        // Like lg:[&:nth-child(3)]:hover:underline
+        const isArbitraryVariant = modifier[0] === "[";
+
+        // Go through every modifier in array and keep adding to unsorttedModifiers until we find an arbitrary variant when we'll push the sorted
+        // then we'll keep going till another arbitrary variant is found or later where we sort and do a final push to sortedModifiers
+        if (isArbitraryVariant) {
+            sortedModifiers.push(...unsortedModifiers.sort(), modifier);
+            unsortedModifiers = [];
+        } else {
+            unsortedModifiers.push(modifier);
+        }
+    });
+
+    sortedModifiers.push(...unsortedModifiers.sort());
+
+    return sortedModifiers;
+}
+
+console.log(mergeClasses);
