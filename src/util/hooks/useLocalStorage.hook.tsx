@@ -9,7 +9,7 @@ export function useLocalStorage<T>(
     key: string,
     defaultValue: T,
     debounceTime: number = 0
-): [T, (value: T) => void] {
+): [T, React.Dispatch<React.SetStateAction<T>>] {
     // dont need setValue before page has mounted and no user input
     // To get past ssr on intial render I could:
     // add state in useffect

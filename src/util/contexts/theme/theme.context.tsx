@@ -2,13 +2,12 @@
 
 import { createContext, use } from "react";
 import { useLocalStorage } from "@/util/hooks/useLocalStorage.hook";
-import { useHasMounted } from "@/util/hooks/useHasMounted";
+import { useHasMounted } from "@/util/hooks/useHasMounted.hook";
 
 // sketch
-const ThemeContext = createContext<[string, (theme: string) => void]>([
-    "system",
-    null as unknown as (theme: string) => void
-]);
+const ThemeContext = createContext<
+    [string, React.Dispatch<React.SetStateAction<string>>]
+>(["system", () => {}]);
 
 // was going to use boolean but instead:
 // "light" | "dark" | "system"
@@ -47,6 +46,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 }
 
 // call this getTheme instead of useTheme since even though it is a hook the "use" hook is weird and break the rules
-export function getTheme(): [string, (theme: string) => void] {
+export function getTheme(): [
+    string,
+    React.Dispatch<React.SetStateAction<string>>
+] {
     return use(ThemeContext);
 }

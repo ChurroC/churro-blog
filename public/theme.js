@@ -13,4 +13,4 @@ if (
     document.documentElement.classList.remove("dark");
     console.log("light");
 }
-alert("theme.js ran");
+// alert("theme.js ran");
