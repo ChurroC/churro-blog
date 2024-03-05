@@ -1,4 +1,5 @@
 "use client";
+
 import { getTheme } from "@/util/contexts/theme";
 import { NoSSRWrapper } from "@/util/helpers/noSSRWrapper";
 import { useHasMounted } from "@/util/hooks/useHasMounted.hook";
