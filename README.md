@@ -40,4 +40,4 @@ Just for myself but useHasMounted for when you dont want one component server re
 
 Use the noSSRWrapper when you don't want children server rendered either.
 
-[![wakatime](https://wakatime.com/badge/github/ChurroC/robotics.svg)](https://wakatime.com/badge/github/ChurroC/robotics)
+From commit 25 I have spent: [![wakatime](https://wakatime.com/badge/user/556be9d6-d9d1-4759-9d11-ce13a483fcf3/project/018ddea8-5005-4891-a15a-6caf0116c109.svg)](https://wakatime.com/badge/user/556be9d6-d9d1-4759-9d11-ce13a483fcf3/project/018ddea8-5005-4891-a15a-6caf0116c109)
