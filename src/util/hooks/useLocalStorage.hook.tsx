@@ -28,6 +28,15 @@ export function useLocalStorage<T>(
         }
     }, []);
 
+    useEffect(() => {
+        window.addEventListener("storage", ({ key: keyChanged, newValue }) => {
+            console.log(keyChanged, newValue);
+            if (key === keyChanged) {
+                setValue(JSON.parse(newValue!) as T);
+            }
+        });
+    }, [key]);
+
     // after value has been changed set the localstorage with a debounce.
     // don't need debounce dependancy since if it changed I don't want to waste time setting the localstorage when it is the same value
     useEffect(() => {

@@ -8,7 +8,7 @@ Hooks are useComponent.hook.js
 
 Going to use bun and turbopack to bleed irresponsibly
 
-Going to try to make most components and utils by myself for like tailwindMerge and drop
+Going to try to make most components and utils by myself
 
 Sites as rolemodels:
 https://nextjs.org

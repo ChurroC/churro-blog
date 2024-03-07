@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, use } from "react";
+import { createContext, use, useEffect } from "react";
 import { useLocalStorage } from "@/util/hooks/useLocalStorage.hook";
 import { useHasMounted } from "@/util/hooks/useHasMounted.hook";
 
@@ -33,10 +33,25 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         ) {
             document.documentElement.classList.add("dark");
         } else {
-            console.log("light");
             document.documentElement.classList.remove("dark");
         }
     }
+
+    useEffect(() => {
+        const themeListener = window.matchMedia("(prefers-color-scheme: dark)");
+
+        themeListener.addEventListener("change", ({ matches }) => {
+            if (matches) {
+                setTheme("dark");
+                document.documentElement.classList.add("dark");
+            } else {
+                setTheme("light");
+                document.documentElement.classList.remove("dark");
+            }
+        });
+
+        return () => themeListener.removeEventListener("change", () => {});
+    });
 
     return (
         <ThemeContext.Provider value={[theme, setTheme]}>
