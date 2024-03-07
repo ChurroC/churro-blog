@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, use, useEffect } from "react";
+import { createContext, use, useEffect, useSyncExternalStore } from "react";
 import { useLocalStorage } from "@/util/hooks/useLocalStorage.hook";
 import { useHasMounted } from "@/util/hooks/useHasMounted.hook";
 
@@ -37,21 +37,49 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         }
     }
 
-    useEffect(() => {
-        const themeListener = window.matchMedia("(prefers-color-scheme: dark)");
+    // useEffect(() => {
+    //     const themeListener = window.matchMedia("(prefers-color-scheme: dark)");
 
-        themeListener.addEventListener("change", ({ matches }) => {
-            if (matches) {
-                setTheme("dark");
-                document.documentElement.classList.add("dark");
-            } else {
-                setTheme("light");
-                document.documentElement.classList.remove("dark");
+    //     themeListener.addEventListener("change", ({ matches }) => {
+    //         if (matches) {
+    //             setTheme("dark")
+    //         } else {
+    //             setTheme("light");
+    //         }
+    //     });
+
+    //     return () => themeListener.removeEventListener("change", () => {});
+    // });
+
+    const storage = useSyncExternalStore<string>(
+        callback => {
+            window
+                .matchMedia("(prefers-color-scheme: dark)")
+                .addEventListener("change", () => {
+                    callback();
+                    console.log("change");
+                });
+            return () => {
+                window
+                    .matchMedia("(prefers-color-scheme: dark)")
+                    .removeEventListener("change", callback);
+            };
+        },
+        () => {
+            const localValue = localStorage.getItem("theme");
+            if (localValue) {
+                // if there is a value in localstorage set it to our reactive value
+                return JSON.parse(localValue);
             }
-        });
+            return "system";
+        },
+        () => "system"
+    );
 
-        return () => themeListener.removeEventListener("change", () => {});
-    });
+    useEffect(() => {
+        console.log(storage);
+        setTheme(storage);
+    }, [storage]);
 
     return (
         <ThemeContext.Provider value={[theme, setTheme]}>

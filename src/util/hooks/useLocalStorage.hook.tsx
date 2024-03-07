@@ -22,19 +22,28 @@ export function useLocalStorage<T>(
     useEffect(() => {
         // once page is mounted get key
         const localValue = localStorage.getItem(key);
-        if (localValue !== null) {
+        if (localValue) {
             // if there is a value in localstorage set it to our reactive value
             setValue(JSON.parse(localValue) as T);
         }
     }, []);
 
     useEffect(() => {
-        window.addEventListener("storage", ({ key: keyChanged, newValue }) => {
+        function storageChange({
+            key: keyChanged,
+            newValue
+        }: StorageEventInit) {
             console.log(keyChanged, newValue);
             if (key === keyChanged) {
                 setValue(JSON.parse(newValue!) as T);
             }
-        });
+        }
+
+        window.addEventListener("storage", storageChange);
+
+        return () => {
+            window.removeEventListener("storage", storageChange);
+        };
     }, [key]);
 
     // after value has been changed set the localstorage with a debounce.
