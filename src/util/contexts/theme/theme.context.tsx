@@ -37,49 +37,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         }
     }
 
-    // useEffect(() => {
-    //     const themeListener = window.matchMedia("(prefers-color-scheme: dark)");
-
-    //     themeListener.addEventListener("change", ({ matches }) => {
-    //         if (matches) {
-    //             setTheme("dark")
-    //         } else {
-    //             setTheme("light");
-    //         }
-    //     });
-
-    //     return () => themeListener.removeEventListener("change", () => {});
-    // });
-
-    const storage = useSyncExternalStore<string>(
-        callback => {
-            window
-                .matchMedia("(prefers-color-scheme: dark)")
-                .addEventListener("change", () => {
-                    callback();
-                    console.log("change");
-                });
-            return () => {
-                window
-                    .matchMedia("(prefers-color-scheme: dark)")
-                    .removeEventListener("change", callback);
-            };
-        },
-        () => {
-            const localValue = localStorage.getItem("theme");
-            if (localValue) {
-                // if there is a value in localstorage set it to our reactive value
-                return JSON.parse(localValue);
-            }
-            return "system";
-        },
-        () => "system"
-    );
-
     useEffect(() => {
-        console.log(storage);
-        setTheme(storage);
-    }, [storage]);
+        const themeListener = window.matchMedia("(prefers-color-scheme: dark)");
+
+        function themeChange({ matches }: MediaQueryListEvent) {
+            if (matches) {
+                setTheme("dark");
+            } else {
+                setTheme("light");
+            }
+        }
+        themeListener.addEventListener("change", themeChange);
+
+        return () => {
+            themeListener.removeEventListener("change", themeChange);
+        };
+    });
 
     return (
         <ThemeContext.Provider value={[theme, setTheme]}>
