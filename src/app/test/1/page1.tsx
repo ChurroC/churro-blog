@@ -2,7 +2,6 @@
 
 import { getTheme } from "@/util/contexts/theme";
 import { NoSSRWrapper } from "@/util/helpers/noSSRWrapper";
-import { useHasMounted } from "@/util/hooks/useHasMounted.hook";
 import { useState } from "react";
 
 export function Page1() {
@@ -20,10 +19,6 @@ export function Page1() {
     return (
         <>
             <div>This is theme: {theme}</div>
-            <div>
-                This is directly through local storage:{" "}
-                {useHasMounted() ? localStorage.getItem("theme") : "waiting"}
-            </div>
             <button onClick={() => setTheme("light")}>Light</button>
             <button onClick={() => setTheme("dark")}>Dark</button>
             <button onClick={() => setTheme("system")}>System</button>

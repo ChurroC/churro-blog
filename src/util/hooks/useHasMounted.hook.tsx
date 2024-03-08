@@ -16,3 +16,7 @@ export function useHasMounted() {
 
     return hasMounted;
 }
+// useEffect will run before hasMounted is true
+// this means if you try to run code in useEffect or inital render then the data hasn't been synces yet
+// this is useful to know since that means all data is synced up like in local storage if hasMounted is true
+// if we wait until mount then we know data is synced since we grab data on first effect then wait until setValue finishes to then start the next useEffect for that vlaue

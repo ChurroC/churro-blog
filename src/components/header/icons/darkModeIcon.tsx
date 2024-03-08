@@ -1,5 +1,3 @@
-"use client";
-
 import { HeaderIcon } from "./headerIcon";
 import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 

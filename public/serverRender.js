@@ -1,1 +1,1 @@
-// alert("This is server rendered content!");
+alert("This is server rendered content!");

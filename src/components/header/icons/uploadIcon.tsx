@@ -1,5 +1,3 @@
-"use client";
-
 import { HeaderIcon } from "./headerIcon";
 
 export function UploadIcon() {

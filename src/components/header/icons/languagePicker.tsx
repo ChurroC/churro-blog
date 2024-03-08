@@ -1,5 +1,3 @@
-"use client";
-
 import { HeaderIcon } from "@/components/header/icons/headerIcon";
 import { LanguageIcon } from "@heroicons/react/24/outline";
 

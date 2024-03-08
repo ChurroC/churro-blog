@@ -1,8 +1,8 @@
 "use client";
 
-import { createContext, use, useEffect, useSyncExternalStore } from "react";
+import { createContext, use, useEffect, useRef } from "react";
 import { useLocalStorage } from "@/util/hooks/useLocalStorage.hook";
-import { useHasMounted } from "@/util/hooks/useHasMounted.hook";
+import { useOnChange } from "@/util/hooks/useOnChange.hook";
 
 // sketch
 const ThemeContext = createContext<
@@ -21,11 +21,15 @@ const ThemeContext = createContext<
 
 // It is going to be system first render then light or dark on second render
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useLocalStorage<string>("theme", "system");
+    const [theme, setTheme, hasSyncedClient] = useLocalStorage<string>(
+        "theme",
+        "system"
+    );
 
     // doesn't actually change the theme until it mounts and syncs up with localstorage
     // this is to prevent FOUC since the theme.js runs first
-    if (useHasMounted()) {
+    console.log("ThemeProvider");
+    if (hasSyncedClient) {
         if (
             theme === "dark" ||
             (theme === "system" &&
@@ -37,22 +41,24 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         }
     }
 
+    // Only runs after data has been synced once unlike useHasMounted that will run every time
     useEffect(() => {
-        const themeListener = window.matchMedia("(prefers-color-scheme: dark)");
-
-        function themeChange({ matches }: MediaQueryListEvent) {
-            if (matches) {
-                setTheme("dark");
-            } else {
-                setTheme("light");
+        function themeChange() {
+            console.log("themeChange", theme);
+            if (theme === "system") {
+                setTheme("system");
             }
         }
-        themeListener.addEventListener("change", themeChange);
 
-        return () => {
-            themeListener.removeEventListener("change", themeChange);
-        };
-    });
+        window
+            .matchMedia("(prefers-color-scheme: dark)")
+            .addEventListener("change", themeChange);
+
+        return () =>
+            window
+                .matchMedia("(prefers-color-scheme: dark)")
+                .removeEventListener("change", themeChange);
+    }, [theme]);
 
     return (
         <ThemeContext.Provider value={[theme, setTheme]}>
