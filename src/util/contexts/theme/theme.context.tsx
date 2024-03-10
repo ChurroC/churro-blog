@@ -1,8 +1,8 @@
 "use client";
 
-import { createContext, use, useEffect, useRef } from "react";
+import { createContext, use, useEffect } from "react";
 import { useLocalStorage } from "@/util/hooks/useLocalStorage.hook";
-import { useOnChange } from "@/util/hooks/useOnChange.hook";
+import { useOnlyOnChange } from "@/util/hooks/useOnChange.hook";
 
 // sketch
 const ThemeContext = createContext<
@@ -21,32 +21,15 @@ const ThemeContext = createContext<
 
 // It is going to be system first render then light or dark on second render
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme, hasSyncedClient] = useLocalStorage<string>(
-        "theme",
-        "system"
-    );
-
-    // doesn't actually change the theme until it mounts and syncs up with localstorage
-    // this is to prevent FOUC since the theme.js runs first
-    console.log("ThemeProvider");
-    if (hasSyncedClient) {
-        if (
-            theme === "dark" ||
-            (theme === "system" &&
-                window.matchMedia("(prefers-color-scheme: dark)").matches)
-        ) {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
-    }
+    const [theme, setTheme] = useLocalStorage<string>("theme", "system");
 
     // Only runs after data has been synced once unlike useHasMounted that will run every time
     useEffect(() => {
-        function themeChange() {
-            console.log("themeChange", theme);
-            if (theme === "system") {
-                setTheme("system");
+        function themeChange({ matches }: { matches: boolean }) {
+            if (matches) {
+                document.documentElement.classList.add("dark");
+            } else {
+                document.documentElement.classList.remove("dark");
             }
         }
 
@@ -58,6 +41,21 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
             window
                 .matchMedia("(prefers-color-scheme: dark)")
                 .removeEventListener("change", themeChange);
+    }, []);
+
+    // doesn't actually change the theme until it mounts and syncs up with localstorage
+    // this is to prevent FOUC since the theme.js runs first
+    // run every time on the client
+    useOnlyOnChange(() => {
+        if (
+            theme === "dark" ||
+            (theme === "system" &&
+                window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
     }, [theme]);
 
     return (

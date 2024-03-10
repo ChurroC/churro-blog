@@ -1,21 +1,31 @@
 "use client";
 
-import { useEffect, DependencyList } from "react";
-import { useHasMounted } from "./useHasMounted.hook";
+import { useEffect, DependencyList, useState, EffectCallback } from "react";
 
-// useEffect only on change of dependancy not inital render
-// situations where intial render has invalid data like localdata from server
-// where until we have mounted we don't have the correct data from localstorage
-// then we can use this to only run the effect when the data is synced up
-export function useOnChange(
-    callback: () => void,
+// This works when you are on client and inital data is inaccurate and you want to wait until the data is synced up
+// since this doesn't run on first render and only when dependancies change
+export function useOnlyOnChange(
+    callback: EffectCallback,
     dependancies: DependencyList
 ) {
     const hasMounted = useHasMounted();
 
+    useEffect(
+        () => {
+            if (hasMounted) {
+                return callback();
+            }
+        },
+        dependancies ? dependancies : []
+    );
+}
+
+function useHasMounted() {
+    const [hasMounted, setHasMounted] = useState(false);
+
     useEffect(() => {
-        if (hasMounted) {
-            return callback();
-        }
-    }, [hasMounted, ...dependancies]);
+        setHasMounted(true);
+    }, []);
+
+    return hasMounted;
 }
