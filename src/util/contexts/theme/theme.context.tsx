@@ -30,7 +30,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     // Runs once on the client and uses reference to current theme to check if "system" and based of "prefers-color-scheme" add dark to body
     useEffect(() => {
-        function themeChange({ matches }: { matches: boolean }) {
+        function themeChange({ matches }: MediaQueryListEventInit) {
             if (matches && refTheme.current === "system") {
                 document.documentElement.classList.add("dark");
             } else {

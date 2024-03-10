@@ -42,7 +42,6 @@ export default function RootLayout({
                     <Header />
                     {children}
                     <Footer />
-                    <div id="portal" />
                 </ThemeProvider>
             </body>
         </html>

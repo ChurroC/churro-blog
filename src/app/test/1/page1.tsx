@@ -35,8 +35,10 @@ export function Page1() {
 function Test() {
     return (
         <>
-            <div>Server side rendering is disabled</div>
-            {localStorage.getItem("theme")}
+            <div className="text-neutral-700">
+                Server side rendering is disabled theme:{" "}
+                {localStorage.getItem("theme")}
+            </div>
         </>
     );
 }

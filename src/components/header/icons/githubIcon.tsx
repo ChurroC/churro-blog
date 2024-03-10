@@ -9,7 +9,7 @@ export function GithubIcon() {
             <HeaderIcon className="w-8">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 98 96"
+                    viewBox="0 0 98 98"
                     className="h-5"
                 >
                     <path
