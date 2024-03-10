@@ -1,32 +1,37 @@
 "use client";
 
-import { createContext, use, useEffect } from "react";
+import { createContext, use, useEffect, useRef } from "react";
 import { useLocalStorage } from "@/util/hooks/useLocalStorage.hook";
 import { useOnlyOnChange } from "@/util/hooks/useOnChange.hook";
 
-// sketch
+// "light" | "dark" | "system"
+// React.Dispatch<React.SetStateAction<string>> is just what vs code said useState used
 const ThemeContext = createContext<
     [string, React.Dispatch<React.SetStateAction<string>>]
 >(["system", () => {}]);
 
-// was going to use boolean but instead:
-// "light" | "dark" | "system"
-
 // workflow:
 // theme.js runs first to prevent FOUC
-// in server side render we get the theme from localstorage which defaults to system which ends up being light since no (prefers-color-scheme: dark)
-// then we get the theme from localstorage
-// it won't change the classes until the second render since the effect in useLocalStorage has to switch the theme state to sync with localstorage then the class code start
-// once both are in sync the classes will be added and removed
+// in server side render we get the theme from localstorage which defaults to system which ends up being light which causes no dark class in body other than the one from theme.js
+// then we get the theme from localstorage and we change the theme state to the value in localstorage
+// if the theme state changes it will add the dark class to the body
 
 // It is going to be system first render then light or dark on second render
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const [theme, setTheme] = useLocalStorage<string>("theme", "system");
 
-    // Only runs after data has been synced once unlike useHasMounted that will run every time
+    // This might seem stupid but this is my best solution to pass by reference the theme to the themeChange function
+    // Since if I use state or a constant it will be the same value and the themeChange function will never change
+    // The only other solution is to add and remove event listener every time the theme changes or I could just modify this ref
+    const refTheme = useRef(theme);
+    useEffect(() => {
+        refTheme.current = theme;
+    }, [theme]);
+
+    // Runs once on the client and uses reference to current theme to check if "system" and based of "prefers-color-scheme" add dark to body
     useEffect(() => {
         function themeChange({ matches }: { matches: boolean }) {
-            if (matches) {
+            if (matches && refTheme.current === "system") {
                 document.documentElement.classList.add("dark");
             } else {
                 document.documentElement.classList.remove("dark");
@@ -65,7 +70,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     );
 }
 
-// call this getTheme instead of useTheme since even though it is a hook the "use" hook is weird and break the rules
+// call this getTheme instead of useTheme since even though it is a hook the "use" hook is weird and break the rules. Also allows this to be conditional.
 export function getTheme(): [
     string,
     React.Dispatch<React.SetStateAction<string>>
