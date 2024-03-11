@@ -13,7 +13,7 @@ export function Dropdown({
     className?: string;
 }) {
     const { top, bottom, right, left } =
-        referenceElement.current?.getBoundingClientRect() || {
+        referenceElement.current?.getBoundingClientRect() ?? {
             top: 0,
             bottom: 0,
             right: 0,
