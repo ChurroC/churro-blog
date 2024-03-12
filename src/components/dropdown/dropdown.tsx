@@ -1,9 +1,10 @@
 "use client";
 
 import { DropdownProvider, getDropdownContext } from "@/util/contexts/dropdown";
-import { DropdownPortal } from "./dropdownInPortal";
+import { InPortal } from "@/util/helpers/inPortal";
+import { DropdownElement } from "./dropdownElement";
 
-// This fits all my needs
+// Cannot be nested
 export function DropdownContext({
     children
 }: {
@@ -25,35 +26,28 @@ export function DropdownTrigger({
         <button
             className={className}
             onClick={() => setIsOpen(!isOpen)}
-            ref={referenceElement as React.RefObject<HTMLButtonElement>}
+            ref={referenceElement}
         >
             {children}
         </button>
     );
 }
 
-// Make having a refernce elment optional to position aorudn it or just use manual css
+// I can use this instead to give my own customizations to do what basically Dropdown does in one
+// Use portal but have to have actual dropdown in a separate component to not run on server since inside Inportal there is NoSSRWrapper which causes children to run on client
+// children but not the parent or where it is defined
 export function DropdownContent({
     children,
-    className,
-    referenceElement: customReferenceElement
+    className
 }: {
     children: React.ReactNode;
     className?: string;
-    referenceElement?: React.RefObject<HTMLElement>;
 }) {
-    const [isOpen, , referenceElement] = getDropdownContext();
+    const [isOpen] = getDropdownContext();
 
-    if (isOpen) {
-        return (
-            <DropdownPortal
-                className={className}
-                referenceElement={customReferenceElement ?? referenceElement}
-            >
-                {children}
-            </DropdownPortal>
-        );
-    }
-
-    return null;
+    return isOpen ? (
+        <InPortal>
+            <DropdownElement className={className}>{children}</DropdownElement>
+        </InPortal>
+    ) : null;
 }
