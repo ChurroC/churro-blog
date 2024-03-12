@@ -1,18 +1,24 @@
 "use client";
 
 import { Dropdown } from "@/components/dropdown";
-import { useRef } from "react";
+import {
+    DropdownContent,
+    DropdownTrigger
+} from "@/components/dropdown/dropdown";
 
 export default function HomePage() {
-    const referenceElement = useRef<HTMLDivElement>(null);
-
     return (
         <>
-            <div className="bg-slate-600" ref={referenceElement}>
-                hi
-            </div>
-            <Dropdown referenceElement={referenceElement}>
-                <div className="bg-slate-600">wow</div>
+            <div className="bg-slate-600">hi</div>
+            <Dropdown>
+                <div></div>
+                <DropdownTrigger>PressMe</DropdownTrigger>
+                <DropdownContent>Hi</DropdownContent>
+            </Dropdown>
+            <Dropdown>
+                <div></div>
+                <DropdownTrigger>PressMe</DropdownTrigger>
+                <DropdownContent>Hi</DropdownContent>
             </Dropdown>
         </>
     );

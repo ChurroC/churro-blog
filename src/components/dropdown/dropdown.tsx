@@ -1,31 +1,59 @@
 "use client";
 
-import { RefObject } from "react";
-import { twMerge } from "tailwind-merge";
+import { DropdownProvider, getDropdownContext } from "@/util/contexts/dropdown";
+import { DropdownPortal } from "./dropdownInPortal";
 
-export function Dropdown({
+// This fits all my needs
+export function DropdownContext({
+    children
+}: {
+    children: React.ReactElement[];
+}) {
+    return <DropdownProvider>{children}</DropdownProvider>;
+}
+
+export function DropdownTrigger({
     children,
-    referenceElement,
     className
 }: {
     children: React.ReactNode;
-    referenceElement: RefObject<HTMLElement>;
     className?: string;
 }) {
-    const { top, bottom, right, left } =
-        referenceElement.current?.getBoundingClientRect() ?? {
-            top: 0,
-            bottom: 0,
-            right: 0,
-            left: 0
-        };
+    const [isOpen, setIsOpen, referenceElement] = getDropdownContext();
 
     return (
-        <div
-            className={twMerge(`fixed`, className)}
-            style={{ top, bottom, right, left }}
+        <button
+            className={className}
+            onClick={() => setIsOpen(!isOpen)}
+            ref={referenceElement as React.RefObject<HTMLButtonElement>}
         >
             {children}
-        </div>
+        </button>
     );
+}
+
+// Make having a refernce elment optional to position aorudn it or just use manual css
+export function DropdownContent({
+    children,
+    className,
+    referenceElement: customReferenceElement
+}: {
+    children: React.ReactNode;
+    className?: string;
+    referenceElement?: React.RefObject<HTMLElement>;
+}) {
+    const [isOpen, , referenceElement] = getDropdownContext();
+
+    if (isOpen) {
+        return (
+            <DropdownPortal
+                className={className}
+                referenceElement={customReferenceElement ?? referenceElement}
+            >
+                {children}
+            </DropdownPortal>
+        );
+    }
+
+    return null;
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export function HeaderIcon({

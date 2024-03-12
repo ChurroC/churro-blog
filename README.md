@@ -34,6 +34,8 @@ when you hover over button have the size chane but not text like josh comeau for
 
 fix duplicate class issues
 
+chaneg theme conetxt to have context in get
+
 ## Info
 
 Just for myself but useHasMounted for when you dont want one component server rendred but children server rendered like theme context.

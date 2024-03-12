@@ -3,21 +3,21 @@
 import { useEffect, useRef, useState } from "react";
 import { useOnlyOnChange } from "./useOnChange.hook";
 
-export function useLocalStorage<T>(
+export function useLocalStorage<ValueType>(
     key: string,
-    defaultValue: T,
+    defaultValue: ValueType,
     debounceTime: number = 0
-): [T, React.Dispatch<React.SetStateAction<T>>] {
-    const [value, setValue] = useState<T>(defaultValue);
+): [ValueType, React.Dispatch<React.SetStateAction<T>>] {
+    const [value, setValue] = useState<ValueType>(defaultValue);
 
     useEffect(() => {
         // once page is mounted get key
         const localValue = localStorage.getItem(key);
         if (localValue) {
             // if there is a value in localstorage set it to our reactive value
-            setValue(JSON.parse(localValue) as T);
+            setValue(JSON.parse(localValue) as ValueType);
         }
-    }, []);
+    }, [key]);
 
     // Goofy idea but is it really going to be faster to use a ref to keep track of the key and pass by reference instead of adding and removing listeners?
     const keyTheme = useRef(key);
@@ -33,7 +33,7 @@ export function useLocalStorage<T>(
         }: StorageEventInit) {
             // reference should pick up current value of key
             if (keyTheme.current === keyChanged) {
-                setValue(JSON.parse(newValue!) as T);
+                setValue(JSON.parse(newValue!) as ValueType);
             }
         }
 
@@ -51,7 +51,7 @@ export function useLocalStorage<T>(
         }, debounceTime);
 
         return () => clearTimeout(delayDebounceFn);
-    }, [key, value]);
+    }, [value]);
 
     return [value, setValue];
 }
