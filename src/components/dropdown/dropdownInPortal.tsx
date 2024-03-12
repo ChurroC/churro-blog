@@ -16,7 +16,7 @@ export function DropdownPortal(props: {
         <InPortal>
             <DropdownInPortal
                 {...props}
-                referenceElement={props.referenceElement!}
+                referenceElement={props.referenceElement}
             />
         </InPortal>
     );

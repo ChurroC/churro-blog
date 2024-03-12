@@ -8,7 +8,7 @@ const DropdownContext = createContext<
         React.Dispatch<React.SetStateAction<boolean>>,
         React.RefObject<HTMLElement>
     ]
->([false, () => {}, null as any]);
+>([false, () => {}, { current: null }]);
 
 export function DropdownProvider({ children }: { children: React.ReactNode }) {
     const [isOpen, setIsOpen] = useState(false);

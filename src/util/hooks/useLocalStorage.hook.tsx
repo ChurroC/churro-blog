@@ -7,7 +7,7 @@ export function useLocalStorage<ValueType>(
     key: string,
     defaultValue: ValueType,
     debounceTime: number = 0
-): [ValueType, React.Dispatch<React.SetStateAction<T>>] {
+): [ValueType, React.Dispatch<React.SetStateAction<ValueType>>] {
     const [value, setValue] = useState<ValueType>(defaultValue);
 
     useEffect(() => {
