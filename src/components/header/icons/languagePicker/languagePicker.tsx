@@ -15,8 +15,10 @@ export function LanguagePicker() {
                     <LanguageIcon className="h-5" />
                 </HeaderIcon>
             </DropdownTrigger>
-            <DropdownContent className="flex">
-                <div className="bg-slate-600">wow</div>
+            <DropdownContent className="flex w-32 flex-col">
+                <div className="items-center px-2 py-1 text-sm">System</div>
+                <div className="items-center px-2 py-1 text-sm">Light</div>
+                <div className="items-center px-2 py-1 text-sm">Dark</div>
             </DropdownContent>
         </Dropdown>
     );

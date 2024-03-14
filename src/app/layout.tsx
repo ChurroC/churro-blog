@@ -35,9 +35,7 @@ export default function RootLayout({
                 <script src="/theme.js" type="text/javascript" />
                 <Script src="/serverRender.js" strategy="beforeInteractive" />
             </head>
-            <body
-                className={`${GeistSans.className} ${GeistMono.variable} bg-white dark:bg-black`}
-            >
+            <body className={`${GeistSans.className} bg-white dark:bg-black`}>
                 <ThemeProvider>
                     <Header />
                     {children}

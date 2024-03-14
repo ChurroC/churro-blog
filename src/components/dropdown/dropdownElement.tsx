@@ -1,3 +1,5 @@
+"use client";
+
 import { twMerge } from "tailwind-merge";
 import { getDropdownContext } from "@/util/contexts/dropdown";
 
@@ -10,23 +12,41 @@ export function DropdownElement({
     className?: string;
 }) {
     const [, , referenceElement] = getDropdownContext();
+    if (!referenceElement?.current) return null;
+    const { top, right } = referenceElement.current.getBoundingClientRect();
 
-    const { top, right, left } =
-        referenceElement?.current?.getBoundingClientRect() ?? {
-            top: 0,
-            bottom: 0,
-            right: 0,
-            left: 0
-        };
+    // This shouldn't slow down the app since it only runs when a dropdown is pressent and somone is actively resizing the window (which is rare)
+    // Only other devs would do it and for my satisfaction I wanted this to be smooth
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+    useEffect(() => {
+        function onResize() {
+            setScreenWidth(window.innerWidth);
+        }
 
-    const centerX = left + (right - left) / 2;
+        window.addEventListener("resize", onResize);
+
+        return () => window.removeEventListener("resize", onResize);
+    }, []);
 
     return (
         <div
-            className={twMerge(`fixed`, className)}
-            style={{ left: centerX, top: top + 30 }}
+            className={twMerge(
+                "fixed right-0 top-0 rounded-md border border-neutral-200 bg-white p-1 shadow-md",
+                className
+            )}
+            style={{
+                transform: `translate(${-(screenWidth - right)}px, ${top + 40}px)`
+            }}
         >
             {children}
         </div>
     );
 }
+
+import { useState, useEffect } from "react";
+
+const useScreenSize = () => {
+    return screenSize;
+};
+
+export default useScreenSize;

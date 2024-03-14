@@ -32,7 +32,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         function themeChange({ matches }: MediaQueryListEventInit) {
             if (refTheme.current === "system") {
-                if (matches) document.documentElement.classList.add("dark")
+                if (matches) document.documentElement.classList.add("dark");
                 else document.documentElement.classList.remove("dark");
             }
         }
