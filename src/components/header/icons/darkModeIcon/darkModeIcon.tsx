@@ -16,9 +16,13 @@ export function DarkModeIcon() {
                 </HeaderIcon>
             </DropdownTrigger>
             <DropdownContent className="flex w-32 flex-col">
-                <div className="items-center px-2 py-1 text-sm">System</div>
-                <div className="items-center px-2 py-1 text-sm">Light</div>
-                <div className="items-center px-2 py-1 text-sm">Dark</div>
+                <button className="items-center px-2 py-1 text-sm">
+                    System
+                </button>
+                <button className="items-center px-2 py-1 text-sm">
+                    Light
+                </button>
+                <button className="items-center px-2 py-1 text-sm">Dark</button>
             </DropdownContent>
         </Dropdown>
     );

@@ -2,7 +2,8 @@
 
 import { twMerge } from "tailwind-merge";
 import { getDropdownContext } from "@/util/contexts/dropdown";
-import { useSyncExternalStore } from "react";
+import { useEventListener } from "@/util/hooks/useWindowListener";
+import { useState } from "react";
 
 // This is the actual dropdown
 export function DropdownElement({
@@ -18,14 +19,21 @@ export function DropdownElement({
 
     // This shouldn't slow down the app since it only runs when a dropdown is pressent and somone is actively resizing the window (which is rare)
     // Only other devs would do it and for my satisfaction I wanted this to be smooth
-    const screenWidth = useSyncExternalStore(
-        callback => {
-            window.addEventListener("resize", callback);
-            return () => window.removeEventListener("resize", callback);
-        },
-        () => window.innerWidth
-    );
+    // const screenWidth = useSyncExternalStore(
+    //     callback => {
+    //         window.addEventListener("resize", callback);
+    //         return () => window.removeEventListener("resize", callback);
+    //     },
+    //     () => window.innerWidth
+    // );
+    const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
+    useEventListener(window, "resize", () => {
+        console.log("hkj");
+        setScreenWidth(window.innerWidth);
+    });
+
+    console.log("rerender");
     return (
         <div
             className={twMerge(
