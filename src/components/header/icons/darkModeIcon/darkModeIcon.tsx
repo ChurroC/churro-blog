@@ -5,6 +5,7 @@ import {
     DropdownContent,
     DropdownTrigger
 } from "@/components/dropdown";
+import { DarkModeIconDropdown } from "./darkModeIconDropdown";
 
 // Client component since local storage
 export function DarkModeIcon() {
@@ -15,14 +16,8 @@ export function DarkModeIcon() {
                     <SunIcon className="h-5" />
                 </HeaderIcon>
             </DropdownTrigger>
-            <DropdownContent className="flex w-32 flex-col">
-                <button className="items-center px-2 py-1 text-sm">
-                    System
-                </button>
-                <button className="items-center px-2 py-1 text-sm">
-                    Light
-                </button>
-                <button className="items-center px-2 py-1 text-sm">Dark</button>
+            <DropdownContent>
+                <DarkModeIconDropdown />
             </DropdownContent>
         </Dropdown>
     );

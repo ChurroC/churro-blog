@@ -17,6 +17,7 @@ const config = {
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/no-inferrable-types": "warn",
     "@typescript-eslint/no-empty-function": "off",
+    "react/no-unescaped-entities": "off",
 
     "@typescript-eslint/consistent-type-imports": [
       "warn",

@@ -5,10 +5,12 @@ import { useLocalStorage } from "@/util/hooks/useLocalStorage.hook";
 import { useOnlyOnChange } from "@/util/hooks/useOnChange.hook";
 import { useReferenceState } from "@/util/hooks/useReferenceState.hook";
 
+export type themeState = "light" | "dark" | "system";
+
 // "light" | "dark" | "system"
 // React.Dispatch<React.SetStateAction<string>> is just what vs code said useState used
 const ThemeContext = createContext<
-    [string, React.Dispatch<React.SetStateAction<string>>]
+    [themeState, React.Dispatch<React.SetStateAction<themeState>>]
 >(["system", () => {}]);
 
 // workflow:
@@ -19,7 +21,7 @@ const ThemeContext = createContext<
 
 // It is going to be system first render then light or dark on second render
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useLocalStorage<string>("theme", "system");
+    const [theme, setTheme] = useLocalStorage<themeState>("theme", "system");
 
     // This might seem stupid but this is my best solution to pass by reference the theme to the themeChange function
     // Since if I use state or a constant it will be the same value and the themeChange function will never change
@@ -69,8 +71,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 // call this getTheme instead of useTheme since even though it is a hook the "use" hook is weird and break the rules. Also allows this to be conditional.
 export function getTheme(): [
-    string,
-    React.Dispatch<React.SetStateAction<string>>
+    themeState,
+    React.Dispatch<React.SetStateAction<themeState>>
 ] {
     return use(ThemeContext);
 }

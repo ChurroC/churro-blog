@@ -22,7 +22,7 @@ export function MainNav({
                         className={`${
                             href.toUpperCase() ===
                             `/${segment.join("/")?.toUpperCase()}`
-                                ? "zink-neutral-950 "
+                                ? "text-neutral-950"
                                 : "text-neutral-400"
                         } text-sm `}
                         key={i}

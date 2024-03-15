@@ -3,6 +3,7 @@
 import { twMerge } from "tailwind-merge";
 import { getDropdownContext } from "@/util/contexts/dropdown";
 import { useEffect, useState } from "react";
+import { propsToChildren } from "@/util/helpers/propsToChildren";
 
 // This is the actual dropdown
 export function DropdownElement({
@@ -13,10 +14,9 @@ export function DropdownElement({
     className?: string;
 }) {
     const [, , referenceElement] = getDropdownContext();
-    if (!referenceElement?.current) return null;
-    const { top, right } = referenceElement.current.getBoundingClientRect();
 
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
     useEffect(() => {
         function storageChange() {
             setScreenWidth(window.innerWidth);
@@ -27,17 +27,24 @@ export function DropdownElement({
         return () => window.removeEventListener("resize", storageChange);
     }, []);
 
+    if (!referenceElement?.current) return null;
+
+    const { top, right } = referenceElement.current.getBoundingClientRect();
+
     return (
         <div
             className={twMerge(
-                "fixed right-0 top-0 rounded-md border border-neutral-200 bg-white p-1 shadow-md",
+                "fixed right-0 top-0 flex w-32 flex-col rounded-md border border-neutral-200 bg-white p-1 shadow-md",
                 className
             )}
             style={{
                 transform: `translate(${-(screenWidth - right)}px, ${top + 40}px)`
             }}
         >
-            {children}
+            {propsToChildren(children, {
+                className:
+                    "rounded-sm px-2 py-1.5 text-left text-sm hover:bg-zinc-100"
+            })}
         </div>
     );
 }
