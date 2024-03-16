@@ -55,7 +55,6 @@ export function DropdownElement({
                               "rounded-sm px-2 py-1.5 text-left text-sm hover:bg-zinc-100"
                       },
                       (childProps, customProps) => {
-                          console.log(childProps.className);
                           return {
                               className: twMerge(
                                   customProps.className,
