@@ -17,7 +17,7 @@ export function DarkModeIcon() {
                 </HeaderIcon>
             </DropdownTrigger>
             <DropdownContent>
-                <DarkModeIconDropdown />
+                <DarkModeIconDropdown className="text-red-500" />
             </DropdownContent>
         </Dropdown>
     );

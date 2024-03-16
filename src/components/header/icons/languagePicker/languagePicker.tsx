@@ -16,9 +16,9 @@ export function LanguagePicker() {
                 </HeaderIcon>
             </DropdownTrigger>
             <DropdownContent>
-                <button>Light</button>
-                <button>Dark</button>
-                <button>System</button>
+                <li className="text-red-600">Light</li>
+                <li>Dark</li>
+                <li>System</li>
             </DropdownContent>
         </Dropdown>
     );

@@ -36,18 +36,17 @@ export function DropdownTrigger({
 // I can use this instead to give my own customizations to do what basically Dropdown does in one
 // Use portal but have to have actual dropdown in a separate component to not run on server since inside Inportal there is NoSSRWrapper which causes children to run on client
 // children but not the parent or where it is defined
-export function DropdownContent({
-    children,
-    className
-}: {
+export function DropdownContent(props: {
     children: React.ReactNode;
     className?: string;
+    noDefaultDropdownCSS?: boolean;
+    noDefaultChildrenCSS?: boolean;
 }) {
     const [isOpen] = getDropdownContext();
 
     return isOpen ? (
         <InPortal>
-            <DropdownElement className={className}>{children}</DropdownElement>
+            <DropdownElement {...props} />
         </InPortal>
     ) : null;
 }
