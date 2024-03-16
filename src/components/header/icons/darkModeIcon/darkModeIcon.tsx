@@ -8,7 +8,6 @@ import {
     DropdownContent,
     DropdownTrigger
 } from "@/components/dropdown";
-
 import { getTheme } from "@/util/contexts/theme";
 import { twMerge } from "tailwind-merge";
 import type { themeState } from "@/util/contexts/theme";
@@ -38,10 +37,8 @@ export function DarkModeIcon() {
                                 key={themeOption}
                                 onClick={() => setTheme(themeOption)}
                                 className={twMerge(
-                                    "text-neutral-400",
-                                    theme === themeOption && "text-neutral-950",
-                                    "capitalize",
-                                    "flex max-h-8 items-center gap-2"
+                                    "capitalize text-neutral-400",
+                                    theme === themeOption && "text-neutral-950"
                                 )}
                             >
                                 {themeOption}

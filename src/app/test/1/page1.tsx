@@ -1,6 +1,6 @@
 "use client";
 
-import { getTheme } from "@/util/contexts/theme";
+import { getTheme, themeState } from "@/util/contexts/theme";
 import { NoSSRWrapper } from "@/util/helpers/noSSRWrapper";
 import { useState } from "react";
 
@@ -9,7 +9,7 @@ export function Page1() {
 
     let [theme, setTheme]: [
         string,
-        React.Dispatch<React.SetStateAction<string>>
+        React.Dispatch<React.SetStateAction<themeState>>
     ] = ["theme not turned on", () => {}];
 
     if (themeOn) {
