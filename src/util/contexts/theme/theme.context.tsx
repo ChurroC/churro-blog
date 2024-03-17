@@ -4,13 +4,15 @@ import { createContext, use, useEffect } from "react";
 import { useLocalStorage } from "@/util/hooks/useLocalStorage.hook";
 import { useOnlyOnChange } from "@/util/hooks/useOnChange.hook";
 import { useReferenceState } from "@/util/hooks/useReferenceState.hook";
+import { useEventListener } from "@/util/hooks/useEventListener";
+import { setCookie } from "@/util/helpers/cookies/setCookies";
 
-export type themeState = "light" | "dark" | "system";
+export type ThemeStateProps = "light" | "dark" | "system";
 
 // "light" | "dark" | "system"
 // React.Dispatch<React.SetStateAction<string>> is just what vs code said useState used
-const ThemeContext = createContext<
-    [themeState, React.Dispatch<React.SetStateAction<themeState>>]
+export const ThemeContext = createContext<
+    [ThemeStateProps, React.Dispatch<React.SetStateAction<ThemeStateProps>>]
 >(["system", () => {}]);
 
 // workflow:
@@ -20,8 +22,17 @@ const ThemeContext = createContext<
 // if the theme state changes it will add the dark class to the body
 
 // It is going to be system first render then light or dark on second render
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useLocalStorage<themeState>("theme", "system");
+export function ThemeProvider({
+    children,
+    cookie
+}: {
+    children: React.ReactNode;
+    cookie?: ThemeStateProps;
+}) {
+    const [theme, setTheme] = useLocalStorage<ThemeStateProps>(
+        "theme",
+        cookie ?? "system"
+    );
 
     // This might seem stupid but this is my best solution to pass by reference the theme to the themeChange function
     // Since if I use state or a constant it will be the same value and the themeChange function will never change
@@ -30,6 +41,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     // Runs once on the client and uses reference to current theme to check if "system" and based of "prefers-color-scheme" add dark to body
     useEffect(() => {
+        void setCookie<ThemeStateProps>("theme", themeReference.current);
+        console.log("jiu");
+
         function themeChange({ matches }: MediaQueryListEvent) {
             if (themeReference.current === "system") {
                 if (matches) document.documentElement.classList.add("dark");
@@ -60,7 +74,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         } else {
             document.documentElement.classList.remove("dark");
         }
+        // When we do set cookie get cookies gets called
+        // setCookie<ThemeStateProps>("theme", themeReference.current);
     }, [theme]);
+
+    useEventListener("beforeunload", e => {
+        // keep alive agttribute needed in fetch
+        void setCookie<ThemeStateProps>("theme", themeReference.current);
+    });
 
     return (
         <ThemeContext.Provider value={[theme, setTheme]}>
@@ -71,8 +92,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 // call this getTheme instead of useTheme since even though it is a hook the "use" hook is weird and break the rules. Also allows this to be conditional.
 export function getTheme(): [
-    themeState,
-    React.Dispatch<React.SetStateAction<themeState>>
+    ThemeStateProps,
+    React.Dispatch<React.SetStateAction<ThemeStateProps>>
 ] {
     return use(ThemeContext);
 }

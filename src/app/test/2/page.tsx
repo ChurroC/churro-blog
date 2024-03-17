@@ -1,16 +1,13 @@
-import { PortalStuff } from "./portalStuff";
-import { InPortal } from "@/util/helpers/inPortal";
+"use client";
+
+import { getTheme } from "@/util/contexts/theme";
 
 export default function HomePage() {
+    const [theme] = getTheme();
+
     return (
         <>
-            <div className="h-[100px] text-neutral-700">
-                igsiefs
-                <InPortal>
-                    <PortalStuff />
-                </InPortal>
-                jksefgu
-            </div>
+            <div className="h-[100px] text-neutral-700">{theme}</div>
         </>
     );
 }
