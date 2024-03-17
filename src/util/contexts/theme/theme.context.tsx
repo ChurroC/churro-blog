@@ -41,9 +41,6 @@ export function ThemeProvider({
 
     // Runs once on the client and uses reference to current theme to check if "system" and based of "prefers-color-scheme" add dark to body
     useEffect(() => {
-        void setCookie<ThemeStateProps>("theme", themeReference.current);
-        console.log("jiu");
-
         function themeChange({ matches }: MediaQueryListEvent) {
             if (themeReference.current === "system") {
                 if (matches) document.documentElement.classList.add("dark");
@@ -78,9 +75,21 @@ export function ThemeProvider({
         // setCookie<ThemeStateProps>("theme", themeReference.current);
     }, [theme]);
 
-    useEventListener("beforeunload", e => {
+    useEventListener("visibilitychange", e => {
         // keep alive agttribute needed in fetch
-        void setCookie<ThemeStateProps>("theme", themeReference.current);
+        //void setCookie<ThemeStateProps>("theme", themeReference.current);
+        // void fetch("/api/set-cookie", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         key: "theme",
+        //         value: themeReference.current
+        //     }),
+        //     keepalive: true
+        // });
+        //e.preventDefault();
     });
 
     return (

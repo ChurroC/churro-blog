@@ -9,6 +9,7 @@ export function useLocalStorage<ValueType>(
     defaultValue: ValueType,
     debounceTime: number = 0
 ): [ValueType, React.Dispatch<React.SetStateAction<ValueType>>] {
+    // Maybve use useOptimistc for this instead
     const [value, setValue] = useState<ValueType>(defaultValue);
 
     useEffect(() => {
@@ -43,6 +44,14 @@ export function useLocalStorage<ValueType>(
     useOnlyOnChange(() => {
         const delayDebounceFn = setTimeout(() => {
             localStorage.setItem(key, JSON.stringify(value));
+            void fetch("/api/set-cookie", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ key, value }),
+                keepalive: true
+            });
         }, debounceTime);
 
         return () => clearTimeout(delayDebounceFn);

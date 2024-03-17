@@ -7,6 +7,7 @@ export function ThemeProviderWithCookies({
 }: {
     children: React.ReactNode;
 }) {
+    // What would happen if page didn't close and the theme was changed but then another page was opeend
     const theme = getCookies<ThemeStateProps>("theme", "system");
     console.log("theme", theme);
 
