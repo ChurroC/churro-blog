@@ -10,7 +10,7 @@ import { Footer } from "@/components/footer";
 // No ssr
 //import { ThemeProvider } from "@/util/contexts/theme";
 import Script from "next/script";
-import { ThemeProviderWithCookies } from "@/util/contexts/theme/cookieTheme";
+import { ThemeProviderWithCookie } from "@/util/contexts/theme/cookieTheme";
 
 export const metadata = {
     title: "Create T3 App",
@@ -31,11 +31,11 @@ export default function RootLayout({
                 <Script src="/serverRender.js" strategy="beforeInteractive" />
             </head>
             <body className={`${GeistSans.className} bg-white dark:bg-black`}>
-                <ThemeProviderWithCookies>
+                <ThemeProviderWithCookie>
                     <Header />
                     {children}
                     <Footer />
-                </ThemeProviderWithCookies>
+                </ThemeProviderWithCookie>
             </body>
         </html>
     );

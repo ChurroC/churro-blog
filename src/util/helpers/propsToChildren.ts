@@ -1,13 +1,13 @@
 import { Children, cloneElement, isValidElement } from "react";
 
 // Maybe a bit overcomplicated but I wanted a way to customize the props of children for stuff like className
-export function propsToChildren(
+export function propsToChildren<T>(
     children: React.ReactNode,
-    props: Record<string, string>,
+    props: Record<string, T>,
     fn?: (
-        childProps: Record<string, string>,
-        customProps: Record<string, string>
-    ) => Record<string, string>
+        childProps: Record<string, T>,
+        customProps: Record<string, T>
+    ) => Record<string, T>
 ) {
     return Children.map(children, child => {
         // Checking isValidElement is the safe way and avoids a typescript error too

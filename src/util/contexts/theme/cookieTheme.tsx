@@ -1,15 +1,17 @@
+import { AddCookies } from "@/util/hooks/cookie/addCookie";
+import { ThemeStateProps } from ".";
 import { ThemeProvider } from "./theme.context";
-import { getCookies } from "@/util/helpers/cookies/getCookies";
-import type { ThemeStateProps } from "./theme.context";
 
-export function ThemeProviderWithCookies({
+export function ThemeProviderWithCookie({
     children
 }: {
     children: React.ReactNode;
 }) {
-    // What would happen if page didn't close and the theme was changed but then another page was opeend
-    const theme = getCookies<ThemeStateProps>("theme", "system");
-    console.log("theme", theme);
-
-    return <ThemeProvider cookie={theme}>{children}</ThemeProvider>;
+    console.log("theme");
+    console.log("theme");
+    return (
+        <AddCookies<ThemeStateProps> cookieKey="theme" defaultValue="system">
+            <ThemeProvider>{children}</ThemeProvider>
+        </AddCookies>
+    );
 }

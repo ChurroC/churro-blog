@@ -1,9 +1,11 @@
 "use client";
 
-import { useCookies } from "@/util/hooks/cookie/useCookies.hook";
+import { createContext, use, useEffect } from "react";
+import { useLocalStorage } from "@/util/hooks/useLocalStorage.hook";
 import { useOnlyOnChange } from "@/util/hooks/useOnChange.hook";
 import { useReferenceState } from "@/util/hooks/useReferenceState.hook";
-import { createContext, use, useEffect } from "react";
+import { useEventListener } from "@/util/hooks/useEventListener";
+import { setCookie } from "@/util/helpers/cookies/setCookies";
 
 export type ThemeStateProps = "light" | "dark" | "system";
 
@@ -13,6 +15,13 @@ export const ThemeContext = createContext<
     [ThemeStateProps, React.Dispatch<React.SetStateAction<ThemeStateProps>>]
 >(["system", () => {}]);
 
+// workflow:
+// theme.js runs first to prevent FOUC
+// in server side render we get the theme from localstorage which defaults to system which ends up being light which causes no dark class in body other than the one from theme.js
+// then we get the theme from localstorage and we change the theme state to the value in localstorage
+// if the theme state changes it will add the dark class to the body
+
+// It is going to be system first render then light or dark on second render
 export function ThemeProvider({
     children,
     cookie
@@ -20,9 +29,10 @@ export function ThemeProvider({
     children: React.ReactNode;
     cookie?: ThemeStateProps;
 }) {
-    console.log(cookie, "cookie");
-    const [theme, setTheme] = useCookies<ThemeStateProps>("theme", cookie!);
-    console.log("theme", theme);
+    const [theme, setTheme] = useLocalStorage<ThemeStateProps>(
+        "theme",
+        cookie ?? "system"
+    );
 
     // This might seem stupid but this is my best solution to pass by reference the theme to the themeChange function
     // Since if I use state or a constant it will be the same value and the themeChange function will never change
@@ -64,6 +74,23 @@ export function ThemeProvider({
         // When we do set cookie get cookies gets called
         // setCookie<ThemeStateProps>("theme", themeReference.current);
     }, [theme]);
+
+    useEventListener("visibilitychange", e => {
+        // keep alive agttribute needed in fetch
+        // void setCookie<ThemeStateProps>("theme", themeReference.current);
+        void fetch("/api/set-cookie", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                key: "theme",
+                value: themeReference.current
+            }),
+            keepalive: true
+        });
+        //e.preventDefault();
+    });
 
     return (
         <ThemeContext.Provider value={[theme, setTheme]}>
