@@ -20,28 +20,15 @@ export async function POST(req: Request) {
         cookies().set(key, value);
         console.log("set cookie", key, value);
 
-        return new Response(null, {
-            status: 200,
-            headers: { "Set-Cookie": `${key}=${value}` }
+        return new Response("success", {
+            status: 200
         });
     } catch (error) {
         if (error instanceof z.ZodError) {
             return new Response(error.message ?? "error", { status: 400 });
         }
-        return new Response("There was an error in the server", {
+        return new Response("error", {
             status: 500
         });
     }
 }
-
-// export async function POST(req: Request) {
-//     const { key, value } = await req.json();
-
-//     cookies().set(key, value);
-//     console.log("set cookie", key, value);
-
-//     return new Response(null, {
-//         status: 200,
-//         headers: { "Set-Cookie": `${key}=${value}` }
-//     });
-// }

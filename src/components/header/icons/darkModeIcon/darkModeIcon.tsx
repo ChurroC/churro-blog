@@ -8,13 +8,13 @@ import {
     DropdownContent,
     DropdownTrigger
 } from "@/components/dropdown";
-import { getTheme } from "@/util/contexts/theme";
+import { getSetTheme, getTheme } from "@/util/contexts/theme";
 import { twMerge } from "tailwind-merge";
 import type { ThemeStateProps } from "@/util/contexts/theme";
 
 // Client component since local storage
 export function DarkModeIcon() {
-    const { theme, setTheme } = getTheme();
+    const [theme, setTheme] = [getTheme(), getSetTheme()];
 
     return (
         <Dropdown>
@@ -25,7 +25,7 @@ export function DarkModeIcon() {
                             light: <SunIcon className="h-5 " />,
                             dark: <MoonIcon className="h-5" />,
                             system: <ComputerDesktopIcon className="h-5" />
-                        }[theme()]
+                        }[theme]
                     }
                 </HeaderIcon>
             </DropdownTrigger>
@@ -38,8 +38,7 @@ export function DarkModeIcon() {
                                 onClick={() => setTheme(themeOption)}
                                 className={twMerge(
                                     "capitalize text-neutral-400",
-                                    theme() === themeOption &&
-                                        "text-neutral-950"
+                                    theme === themeOption && "text-neutral-950"
                                 )}
                             >
                                 {themeOption}

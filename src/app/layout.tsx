@@ -10,6 +10,7 @@ import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ThemeProvider, ThemeStateProps } from "@/util/contexts/theme";
 import { AddCookies } from "@/util/helpers/addCookie";
+import { getCookie } from "@/util/helpers/getCookie";
 
 export const metadata = {
     title: "Create T3 App",
@@ -17,14 +18,21 @@ export const metadata = {
     icons: [{ rel: "icon", url: "/favicon.ico" }]
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children
 }: {
     children: React.ReactNode;
 }) {
-    // Current idea is to have a script tag inside body that sets the theme to not have FOUC
     return (
-        <html lang="en" suppressHydrationWarning>
+        <html
+            lang="en"
+            className={
+                (await getCookie<ThemeStateProps>("theme", "system")) === "dark"
+                    ? "dark"
+                    : ""
+            }
+            suppressHydrationWarning
+        >
             <head>
                 <script src="/theme.js" type="text/javascript" />
                 <Script src="/serverRender.js" strategy="beforeInteractive" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { useHasMounted } from "./useHasMounted.hook";
 
 // This works when you are on client and inital data is inaccurate and you want to wait until the data is synced up
@@ -9,19 +9,12 @@ export function useOnlyOnChange(
     callback: React.EffectCallback,
     dependancies: React.DependencyList
 ) {
-    // const hasMounted = useHasMounted();
-    // useEffect(() => {
-    //     console.log("useOnlyOnChange", hasMounted);
-    // }, [hasMounted]);
+    const hasMounted = useHasMounted();
 
-    console.log([callback, ...dependancies]);
-    const firstRender = useRef(true);
     useEffect(() => {
-        if (firstRender.current) {
-            firstRender.current = false;
-            return;
+        console.log(hasMounted);
+        if (hasMounted) {
+            callback();
         }
-        console.log("useffect 2");
-        return callback();
-    }, [callback, ...dependancies]);
+    }, dependancies);
 }

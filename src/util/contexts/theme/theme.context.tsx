@@ -1,6 +1,10 @@
 "use client";
 
+import { isClient } from "@/util/helpers/isClient";
 import { useCookies } from "@/util/hooks/useCookies.hook";
+import { useEventListener } from "@/util/hooks/useEventListener";
+import { useOnlyOnChange } from "@/util/hooks/useOnChange.hook";
+import { useReferenceState } from "@/util/hooks/useReferenceState.hook";
 import { createContext, use } from "react";
 
 export type ThemeStateProps = "light" | "dark" | "system";
@@ -19,6 +23,31 @@ export function ThemeProvider({
 }) {
     const [theme, setTheme] = useCookies<ThemeStateProps>("theme", cookie!);
 
+    const themeReference = useReferenceState(theme);
+    useEventListener<>(
+        "change",
+        ({ matches }) => {
+            console.log(themeReference.current, "change", matches);
+            if (themeReference.current === "system") {
+                if (matches) document.documentElement.classList.add("dark");
+                else document.documentElement.classList.remove("dark");
+            }
+        },
+        isClient() ? window.matchMedia("(prefers-color-scheme: dark)") : null
+    );
+
+    useOnlyOnChange(() => {
+        if (
+            theme === "dark" ||
+            (theme === "system" &&
+                window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+    }, [theme]);
+
     return (
         <SetThemeContext.Provider value={setTheme}>
             <ThemeContext.Provider value={theme}>
@@ -28,13 +57,11 @@ export function ThemeProvider({
     );
 }
 
-// theme is going to be a function to reduce unesccary render
-export function getTheme(): {
-    theme: () => ThemeStateProps;
-    setTheme: React.Dispatch<React.SetStateAction<ThemeStateProps>>;
-} {
-    return {
-        theme: () => use(ThemeContext),
-        setTheme: use(SetThemeContext)
-    };
+export function getTheme(): ThemeStateProps {
+    return use(ThemeContext);
+}
+export function getSetTheme(): React.Dispatch<
+    React.SetStateAction<ThemeStateProps>
+> {
+    return use(SetThemeContext);
 }
