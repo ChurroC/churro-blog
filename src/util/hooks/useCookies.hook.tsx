@@ -1,7 +1,13 @@
+// @ts-nocheck
+// Need to do this to stop the cookieStore event since not supported in all browser (Firefox :( )
+
 "use client";
 
 import { useState } from "react";
 import { useOnlyOnChange } from "./useOnChange.hook";
+import { useEventListener } from "./useEventListener";
+import { isClient } from "../helpers/isClient";
+import { useReferenceState } from "./useReferenceState.hook";
 
 export function useCookies<ValueType>(
     key: string,
@@ -23,6 +29,23 @@ export function useCookies<ValueType>(
 
         return () => clearTimeout(delayDebounceFn);
     }, [value]);
+
+    const valueReference = useReferenceState(value);
+    const keyReference = useReferenceState(key);
+    useEventListener(
+        "change",
+        event => {
+            console.log("cookie changes");
+            if (
+                event.changed[0].name === keyReference.current &&
+                event.changed[0].value !== valueReference.current
+            ) {
+                console.log("bhj");
+                setValue(event.changed[0].value as ValueType);
+            }
+        },
+        isClient() ? window.cookieStore : null
+    );
 
     return [value, setValue];
 }

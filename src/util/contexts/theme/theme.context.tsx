@@ -24,9 +24,9 @@ export function ThemeProvider({
     const [theme, setTheme] = useCookies<ThemeStateProps>("theme", cookie!);
 
     const themeReference = useReferenceState(theme);
-    useEventListener<>(
+    useEventListener(
         "change",
-        ({ matches }) => {
+        ({ matches }: MediaQueryListEventInit) => {
             console.log(themeReference.current, "change", matches);
             if (themeReference.current === "system") {
                 if (matches) document.documentElement.classList.add("dark");

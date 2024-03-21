@@ -14,7 +14,7 @@ export function useOnlyOnChange(
     useEffect(() => {
         console.log(hasMounted);
         if (hasMounted) {
-            callback();
+            return callback();
         }
     }, dependancies);
 }

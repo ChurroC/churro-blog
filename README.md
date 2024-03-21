@@ -38,6 +38,8 @@ chaneg theme conetxt to have context in get
 
 Add millio.js after testing speed increase and maybe try the compiler too until the react one "comes out"
 
+Maybe make packages for broadcast api with state between tabs also make a package for nextTheme but better with cookies.
+
 ## Info
 
 Just for myself but useHasMounted for when you dont want one component server rendred but children server rendered like theme context.

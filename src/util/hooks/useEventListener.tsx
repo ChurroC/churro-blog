@@ -3,9 +3,7 @@
 import { useEffect } from "react";
 
 // Use globalThis which turns into window in the browser and global in node
-export function useEventListener<
-    EventListener extends EventListenerOrEventListenerObject
->(
+export function useEventListener(
     eventType: string,
     listener: EventListenerOrEventListenerObject,
     element?: EventTarget | null
