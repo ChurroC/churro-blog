@@ -9,7 +9,7 @@ import Script from "next/script";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
 import { ThemeProvider, ThemeStateProps } from "@/util/contexts/theme";
-import { AddCookies } from "@/util/hooks/cookie/addCookie";
+import { AddCookies } from "@/util/helpers/addCookie";
 
 export const metadata = {
     title: "Create T3 App",
