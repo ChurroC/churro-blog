@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useOnlyOnChange } from "../useOnChange.hook";
-import { setCookie } from "@/util/helpers/cookies/setCookies";
 
 export function useCookies<ValueType>(
     key: string,
@@ -16,8 +15,16 @@ export function useCookies<ValueType>(
     // don't need debounce dependancy since if it changed I don't want to waste time setting the localstorage when it is the same value
     // Use only on change so it runs when value changes to correct value
     useOnlyOnChange(() => {
-        const delayDebounceFn = setTimeout(() => {
-            setCookie(key, value);
+        console.log("hji");
+        const delayDebounceFn = setTimeout(async () => {
+            void (await fetch("/api/set-cookie", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ key, value })
+            }));
+            console.log("set cookie");
         }, debounceTime);
 
         return () => clearTimeout(delayDebounceFn);

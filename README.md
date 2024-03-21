@@ -36,6 +36,8 @@ fix duplicate class issues
 
 chaneg theme conetxt to have context in get
 
+Add millio.js after testing speed increase and maybe try the compiler too until the react one "comes out"
+
 ## Info
 
 Just for myself but useHasMounted for when you dont want one component server rendred but children server rendered like theme context.

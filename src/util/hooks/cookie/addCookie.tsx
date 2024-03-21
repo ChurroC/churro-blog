@@ -1,4 +1,4 @@
-import { getCookies } from "@/util/helpers/cookies/getCookies";
+import { getCookie } from "@/util/helpers/getCookie";
 import { propsToChildren } from "@/util/helpers/propsToChildren";
 
 export async function AddCookies<ValueType>({
@@ -10,7 +10,7 @@ export async function AddCookies<ValueType>({
     cookieKey: string;
     defaultValue: ValueType;
 }) {
-    const cookie = await getCookies<ValueType>(cookieKey, defaultValue);
+    const cookie = await getCookie<ValueType>(cookieKey, defaultValue);
 
     return propsToChildren(children, { cookie: cookie });
 }

@@ -5,12 +5,11 @@ import { GeistSans } from "geist/font/sans";
 // GeistMono: --font-geist-mono
 // font-family: var(--font-geist-mono) as an example
 
+import Script from "next/script";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-// No ssr
-//import { ThemeProvider } from "@/util/contexts/theme";
-import Script from "next/script";
-import { ThemeProviderWithCookie } from "@/util/contexts/theme/cookieTheme";
+import { ThemeProvider, ThemeStateProps } from "@/util/contexts/theme";
+import { AddCookies } from "@/util/hooks/cookie/addCookie";
 
 export const metadata = {
     title: "Create T3 App",
@@ -31,11 +30,16 @@ export default function RootLayout({
                 <Script src="/serverRender.js" strategy="beforeInteractive" />
             </head>
             <body className={`${GeistSans.className} bg-white dark:bg-black`}>
-                <ThemeProviderWithCookie>
-                    <Header />
-                    {children}
-                    <Footer />
-                </ThemeProviderWithCookie>
+                <AddCookies<ThemeStateProps>
+                    cookieKey="theme"
+                    defaultValue="system"
+                >
+                    <ThemeProvider>
+                        <Header />
+                        {children}
+                        <Footer />
+                    </ThemeProvider>
+                </AddCookies>
             </body>
         </html>
     );
