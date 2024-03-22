@@ -13,8 +13,8 @@ export function useTabState<StateType>(
     const receiveMessage = useRef(false);
 
     useEffect(() => {
-        channel.current.onmessage = ({ data }) => {
-            setState(data.value);
+        channel.current.onmessage = ({ data: { value } }: MessageEvent) => {
+            setState(value as StateType);
             receiveMessage.current = true;
         };
     });

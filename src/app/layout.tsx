@@ -8,9 +8,10 @@ import { GeistSans } from "geist/font/sans";
 import Script from "next/script";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { ThemeProvider, ThemeState } from "@/util/contexts/theme";
+import { ThemeProvider } from "@/util/contexts/theme";
 import { AddCookies } from "@/util/helpers/addCookie";
 import { getCookie } from "@/util/helpers/getCookie";
+import type { ThemeState } from "@/util/contexts/theme";
 
 export const metadata = {
     title: "Create T3 App",

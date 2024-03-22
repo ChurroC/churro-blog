@@ -3,7 +3,6 @@
 import { DropdownProvider, getDropdownContext } from "@/util/contexts/dropdown";
 import { InPortal } from "@/util/helpers/inPortal";
 import { DropdownElement } from "./dropdownElement";
-import { useEffect } from "react";
 
 // Cannot be nested
 export function DropdownContext({
@@ -22,25 +21,6 @@ export function DropdownTrigger({
     className?: string;
 }) {
     const [isOpen, setIsOpen, referenceElement] = getDropdownContext();
-
-    useEffect(() => {
-        function handleClick(event: MouseEvent) {
-            if (
-                referenceElement.current &&
-                !referenceElement.current.contains(event.target as Node)
-            ) {
-                setIsOpen(false);
-            }
-        }
-
-        if (isOpen) {
-            document.addEventListener("click", handleClick);
-        }
-
-        return () => {
-            document.removeEventListener("click", handleClick);
-        };
-    });
 
     return (
         <button

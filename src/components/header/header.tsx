@@ -1,11 +1,11 @@
+import Link from "next/link";
+import Image from "next/image";
+import nextLogo from "./nextLogo.png";
 import { MainNav } from "./mainNav";
-import { LanguagePicker } from "./icons/languagePicker";
 import { UploadIcon } from "./icons/uploadIcon";
 import { DarkModeIcon } from "./icons/darkModeIcon";
 import { GithubIcon } from "./icons/githubIcon";
-import nextLogo from "./nextLogo.png";
-import Image from "next/image";
-import Link from "next/link";
+import { SocialMediaIcon } from "./icons/socialMediaIcon";
 
 // Goal to be base of vercel's nextJs and TurboPack
 export function Header() {
@@ -51,8 +51,8 @@ export function Header() {
                 {/* Right flexbox container */}
                 {/* Need light mode, lanugage, upload, github */}
                 <div className="flex items-center justify-end gap-4">
-                    <LanguagePicker />
                     <DarkModeIcon />
+                    <SocialMediaIcon />
                     <GithubIcon />
                     <UploadIcon />
                 </div>

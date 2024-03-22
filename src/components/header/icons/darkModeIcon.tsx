@@ -1,6 +1,6 @@
 "use client";
 
-import { HeaderIcon } from "../headerIcon";
+import { HeaderIcon } from "./headerIcon";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { ComputerDesktopIcon } from "@heroicons/react/20/solid";
 import {

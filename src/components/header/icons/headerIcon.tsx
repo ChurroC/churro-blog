@@ -1,5 +1,3 @@
-"use client";
-
 import { twMerge } from "tailwind-merge";
 
 export function HeaderIcon({
@@ -12,7 +10,7 @@ export function HeaderIcon({
     return (
         <div
             className={twMerge(
-                "h-8 flex justify-center items-center border rounded-md border-gray-300 fill-neutral-900 text-neutral-900",
+                "flex h-8 items-center justify-center rounded-md border border-gray-300 fill-neutral-900 text-neutral-900",
                 className
             )}
         >

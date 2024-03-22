@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { getDropdownContext } from "@/util/contexts/dropdown";
 import { propsToChildren } from "@/util/helpers/propsToChildren";
@@ -18,12 +18,20 @@ export function DropdownElement({
     noDefaultDropdownCSS?: boolean;
     noDefaultChildrenCSS?: boolean;
 }) {
-    const [, , referenceElement] = getDropdownContext();
+    const [, setIsOpen, referenceElement] = getDropdownContext();
 
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
+    const content = useRef<HTMLUListElement>(null);
+
     useEventListener("resize", () => {
         setScreenWidth(window.innerWidth);
+    });
+
+    useEventListener("click", ({ target }: Event) => {
+        if (content.current && !content.current.contains(target as Node)) {
+            setIsOpen(false);
+        }
     });
 
     if (!referenceElement?.current) return null;
@@ -40,6 +48,7 @@ export function DropdownElement({
             style={{
                 transform: `translate(${-(screenWidth - right)}px, ${top + 40}px)`
             }}
+            ref={content}
         >
             {noDefaultChildrenCSS
                 ? children
