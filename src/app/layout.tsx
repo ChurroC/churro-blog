@@ -8,7 +8,7 @@ import { GeistSans } from "geist/font/sans";
 import Script from "next/script";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { ThemeProvider, ThemeStateProps } from "@/util/contexts/theme";
+import { ThemeProvider, ThemeState } from "@/util/contexts/theme";
 import { AddCookies } from "@/util/helpers/addCookie";
 import { getCookie } from "@/util/helpers/getCookie";
 
@@ -27,7 +27,7 @@ export default async function RootLayout({
         <html
             lang="en"
             className={
-                (await getCookie<ThemeStateProps>("theme", "system")) === "dark"
+                (await getCookie<ThemeState>("theme", "system")) === "dark"
                     ? "dark"
                     : ""
             }
@@ -38,10 +38,7 @@ export default async function RootLayout({
                 <Script src="/serverRender.js" strategy="beforeInteractive" />
             </head>
             <body className={`${GeistSans.className} bg-white dark:bg-black`}>
-                <AddCookies<ThemeStateProps>
-                    cookieKey="theme"
-                    defaultValue="system"
-                >
+                <AddCookies<ThemeState> cookieKey="theme" defaultValue="system">
                     <ThemeProvider>
                         <Header />
                         {children}

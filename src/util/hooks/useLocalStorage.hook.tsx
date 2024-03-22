@@ -27,6 +27,7 @@ export function useLocalStorage<ValueType>(
     // When other tabs change localstorage update on this page
     useEffect(() => {
         function storageChange({ key: keyChanged, newValue }: StorageEvent) {
+            console.log(keyChanged, newValue);
             // reference should pick up current value of key
             if (keyReference.current === keyChanged) {
                 setValue(JSON.parse(newValue!) as ValueType);
@@ -43,6 +44,7 @@ export function useLocalStorage<ValueType>(
     // Use only on change so it runs when value changes to correct value
     useOnlyOnChange(() => {
         const delayDebounceFn = setTimeout(() => {
+            console.log("set");
             localStorage.setItem(key, JSON.stringify(value));
         }, debounceTime);
 

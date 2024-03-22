@@ -1,9 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { getDropdownContext } from "@/util/contexts/dropdown";
-import { useEffect, useState } from "react";
 import { propsToChildren } from "@/util/helpers/propsToChildren";
+import { useEventListener } from "@/util/hooks/useEventListener";
 
 // This is the actual dropdown
 export function DropdownElement({
@@ -21,15 +22,9 @@ export function DropdownElement({
 
     const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 
-    useEffect(() => {
-        function storageChange() {
-            setScreenWidth(window.innerWidth);
-        }
-
-        window.addEventListener("resize", storageChange);
-
-        return () => window.removeEventListener("resize", storageChange);
-    }, []);
+    useEventListener("resize", () => {
+        setScreenWidth(window.innerWidth);
+    });
 
     if (!referenceElement?.current) return null;
 

@@ -10,7 +10,7 @@ import {
 } from "@/components/dropdown";
 import { getSetTheme, getTheme } from "@/util/contexts/theme";
 import { twMerge } from "tailwind-merge";
-import type { ThemeStateProps } from "@/util/contexts/theme";
+import type { ThemeState } from "@/util/contexts/theme";
 
 // Client component since local storage
 export function DarkModeIcon() {
@@ -30,7 +30,7 @@ export function DarkModeIcon() {
                 </HeaderIcon>
             </DropdownTrigger>
             <DropdownContent>
-                {(["light", "dark", "system"] as ThemeStateProps[]).map(
+                {(["light", "dark", "system"] as ThemeState[]).map(
                     themeOption => {
                         return (
                             <li

@@ -9,6 +9,7 @@ export function useEventListener(
     element?: EventTarget | null
 ) {
     useEffect(() => {
+        console.log("useEventListener");
         (element ?? window)?.addEventListener(eventType, listener);
         return () =>
             (element ?? window)?.removeEventListener(eventType, listener);

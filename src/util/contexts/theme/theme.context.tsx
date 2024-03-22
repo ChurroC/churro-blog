@@ -7,11 +7,11 @@ import { useOnlyOnChange } from "@/util/hooks/useOnChange.hook";
 import { useReferenceState } from "@/util/hooks/useReferenceState.hook";
 import { createContext, use } from "react";
 
-export type ThemeStateProps = "light" | "dark" | "system";
+export type ThemeState = "light" | "dark" | "system";
 
-export const ThemeContext = createContext<ThemeStateProps>("system");
+export const ThemeContext = createContext<ThemeState>("system");
 export const SetThemeContext = createContext<
-    React.Dispatch<React.SetStateAction<ThemeStateProps>>
+    React.Dispatch<React.SetStateAction<ThemeState>>
 >(() => {});
 
 export function ThemeProvider({
@@ -19,9 +19,13 @@ export function ThemeProvider({
     cookie
 }: {
     children: React.ReactNode;
-    cookie?: ThemeStateProps;
+    cookie?: ThemeState;
 }) {
-    const [theme, setTheme] = useCookies<ThemeStateProps>("theme", cookie!);
+    // This is kinda sketch but I force cookie in by changing props sent to ThemeProvider
+    const [theme, setTheme] = useCookies<ThemeState>(
+        "theme",
+        cookie! ?? "system"
+    );
 
     const themeReference = useReferenceState(theme);
     useEventListener(
@@ -57,11 +61,11 @@ export function ThemeProvider({
     );
 }
 
-export function getTheme(): ThemeStateProps {
+export function getTheme(): ThemeState {
     return use(ThemeContext);
 }
 export function getSetTheme(): React.Dispatch<
-    React.SetStateAction<ThemeStateProps>
+    React.SetStateAction<ThemeState>
 > {
     return use(SetThemeContext);
 }
