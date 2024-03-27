@@ -3,69 +3,83 @@
 import { isClient } from "@/util/helpers/isClient";
 import { useCookies } from "@/util/hooks/useCookies.hook";
 import { useEventListener } from "@/util/hooks/useEventListener";
-import { useOnlyOnChange } from "@/util/hooks/useOnChange.hook";
+import { useOnChange } from "@/util/hooks/useOnChange.hook";
 import { useReferenceState } from "@/util/hooks/useReferenceState.hook";
-import { createContext, use } from "react";
+import { createContext, useContext } from "react";
+import { modifyTheme } from "@/util/helpers/modifyTheme";
 
-export type ThemeState = "light" | "dark" | "system";
+import { config } from "@/util/helpers/getConfig";
+export type Theme = typeof config.defaultTheme;
 
-export const ThemeContext = createContext<ThemeState>("system");
-export const SetThemeContext = createContext<
-    React.Dispatch<React.SetStateAction<ThemeState>>
+const ThemeContext = createContext<Theme>("" as Theme);
+const SetThemeContext = createContext<
+    React.Dispatch<React.SetStateAction<Theme>>
 >(() => {});
 
-export function ThemeProvider({
+export function ThemeProviderWithoutProps({
     children,
-    cookie
+    serverTheme
 }: {
     children: React.ReactNode;
-    cookie?: ThemeState;
+    serverTheme: Theme;
 }) {
-    // This is kinda sketch but I force cookie in by changing props sent to ThemeProvider
-    const [theme, setTheme] = useCookies<ThemeState>(
+    const [theme, setTheme] = useCookies<Theme>(
         "theme",
-        cookie! ?? "system"
+        serverTheme,
+        config.debounce ?? 0
     );
 
     const themeReference = useReferenceState(theme);
     useEventListener(
         "change",
         ({ matches }: MediaQueryListEventInit) => {
-            console.log(themeReference.current, "change", matches);
             if (themeReference.current === "system") {
-                if (matches) document.documentElement.classList.add("dark");
-                else document.documentElement.classList.remove("dark");
+                if (matches)
+                    document.documentElement.className = config.systemDarkTheme;
+                else
+                    document.documentElement.className =
+                        config.systemLightTheme;
             }
         },
         isClient() ? window.matchMedia("(prefers-color-scheme: dark)") : null
     );
 
-    useOnlyOnChange(() => {
-        if (
-            theme === "dark" ||
-            (theme === "system" &&
-                window.matchMedia("(prefers-color-scheme: dark)").matches)
-        ) {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
+    useOnChange(() => {
+        document.documentElement.className = modifyTheme(theme);
     }, [theme]);
 
     return (
         <SetThemeContext.Provider value={setTheme}>
             <ThemeContext.Provider value={theme}>
+                {serverTheme === "system" && (
+                    <>
+                        <script
+                            dangerouslySetInnerHTML={{
+                                __html: `(() => {
+                                    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                                        document.documentElement.className = "${config.systemDarkTheme}";
+                                    } else {
+                                        document.documentElement.className = "${config.systemLightTheme}";
+                                    }
+                                })()
+                                `
+                            }}
+                        />
+                    </>
+                )}
                 {children}
             </ThemeContext.Provider>
         </SetThemeContext.Provider>
     );
 }
 
-export function getTheme(): ThemeState {
-    return use(ThemeContext);
+export function useTheme() {
+    return [useContext(ThemeContext), useContext(SetThemeContext)];
 }
-export function getSetTheme(): React.Dispatch<
-    React.SetStateAction<ThemeState>
-> {
-    return use(SetThemeContext);
+
+export function useGetTheme() {
+    return useContext(ThemeContext);
+}
+export function useSetTheme() {
+    return useContext(SetThemeContext);
 }

@@ -1,9 +1,9 @@
 "use client";
 
-import { getSetTheme } from "@/util/contexts/theme";
+import { useSetTheme } from "@/util/contexts/theme";
 
 export function Page1() {
-    const setTheme = getSetTheme();
+    const setTheme = useSetTheme();
 
     return (
         <>

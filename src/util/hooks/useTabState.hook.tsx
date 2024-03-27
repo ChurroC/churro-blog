@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useOnlyOnChange } from "./useOnChange.hook";
+import { useOnChange } from "./useOnChange.hook";
 
 export function useTabState<StateType>(
     initalState: StateType | (() => StateType),
@@ -19,7 +19,7 @@ export function useTabState<StateType>(
         };
     });
 
-    useOnlyOnChange(() => {
+    useOnChange(() => {
         if (!receiveMessage.current) {
             channel.current.postMessage({ value: state });
         }

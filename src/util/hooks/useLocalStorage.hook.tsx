@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useOnlyOnChange } from "./useOnChange.hook";
+import { useOnChange } from "./useOnChange.hook";
 import { useReferenceState } from "@/util/hooks/useReferenceState.hook";
 
 export function useLocalStorage<ValueType>(
@@ -42,7 +42,7 @@ export function useLocalStorage<ValueType>(
     // after value has been changed set the localstorage with a debounce.
     // don't need debounce dependancy since if it changed I don't want to waste time setting the localstorage when it is the same value
     // Use only on change so it runs when value changes to correct value
-    useOnlyOnChange(() => {
+    useOnChange(() => {
         const delayDebounceFn = setTimeout(() => {
             console.log("set");
             localStorage.setItem(key, JSON.stringify(value));

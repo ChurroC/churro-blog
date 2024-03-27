@@ -1,6 +1,6 @@
 "use client";
 
-import { useOnlyOnChange } from "./useOnChange.hook";
+import { useOnChange } from "./useOnChange.hook";
 import { useTabState } from "./useTabState.hook";
 
 export function useCookies<CookieType>(
@@ -11,15 +11,13 @@ export function useCookies<CookieType>(
     // Use broadcast instead of change in cookie since this is cooler
     const [value, setValue] = useTabState<CookieType>(cookieValue, key);
 
-    useOnlyOnChange(() => {
+    useOnChange(() => {
         const delayDebounceFn = setTimeout(() => {
-            void fetch("/api/set-cookie", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ key, value })
-            });
+            if (cookieStore) {
+                cookieStore.set(key, JSON.stringify(value));
+            } else {
+                document.cookie = "theme=" + JSON.stringify(value);
+            }
         }, debounceTime);
 
         return () => clearTimeout(delayDebounceFn);

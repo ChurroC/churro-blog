@@ -8,10 +8,8 @@ import { GeistSans } from "geist/font/sans";
 import Script from "next/script";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { ThemeProvider } from "@/util/contexts/theme";
-import { AddCookies } from "@/util/helpers/addCookie";
-import { getCookie } from "@/util/helpers/getCookie";
-import type { ThemeState } from "@/util/contexts/theme";
+import { ThemeProvider } from "@/util/contexts/theme/server";
+import { getServerTheme } from "@/util/helpers/getServerTheme";
 
 export const metadata = {
     title: "Create T3 App",
@@ -19,33 +17,23 @@ export const metadata = {
     icons: [{ rel: "icon", url: "/favicon.ico" }]
 };
 
-export default async function RootLayout({
+export default function RootLayout({
     children
 }: {
     children: React.ReactNode;
 }) {
     return (
-        <html
-            lang="en"
-            className={
-                (await getCookie<ThemeState>("theme", "system")) === "dark"
-                    ? "dark"
-                    : ""
-            }
-            suppressHydrationWarning
-        >
+        <html lang="en" className={getServerTheme()} suppressHydrationWarning>
             <head>
                 <script src="/theme.js" type="text/javascript" />
                 <Script src="/serverRender.js" strategy="beforeInteractive" />
             </head>
             <body className={`${GeistSans.className} bg-white dark:bg-black`}>
-                <AddCookies<ThemeState> cookieKey="theme" defaultValue="system">
-                    <ThemeProvider>
-                        <Header />
-                        {children}
-                        <Footer />
-                    </ThemeProvider>
-                </AddCookies>
+                <ThemeProvider>
+                    <Header />
+                    {children}
+                    <Footer />
+                </ThemeProvider>
             </body>
         </html>
     );
