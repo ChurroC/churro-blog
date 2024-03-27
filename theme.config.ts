@@ -4,4 +4,6 @@ export const config: ThemeConfig<"dark" | "system" | "light" | "pink"> = {
     defaultTheme: "system",
     systemLightTheme: "light",
     systemDarkTheme: "dark",
-};
+    debounce: 0,
+    modifyTheme: theme => theme,
+}

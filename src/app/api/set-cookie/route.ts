@@ -17,13 +17,14 @@ export async function POST(req: Request) {
             stringToJSONSchema.parse(await req.text())
         );
 
-        cookies().set(key, value);
+        cookies().set(key, JSON.stringify(value));
         console.log("set cookie", key, value);
 
         return new Response("success", {
             status: 200
         });
     } catch (error) {
+        console.log(error);
         if (error instanceof z.ZodError) {
             return new Response(error.message ?? "error", { status: 400 });
         }

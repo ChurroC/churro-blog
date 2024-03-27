@@ -9,14 +9,23 @@ export function useCookies<CookieType>(
     debounceTime: number = 0
 ): [CookieType, React.Dispatch<React.SetStateAction<CookieType>>] {
     // Use broadcast instead of change in cookie since this is cooler
-    const [value, setValue] = useTabState<CookieType>(cookieValue, key);
+    const [value, setValue, receiveMessage] = useTabState<CookieType>(
+        cookieValue,
+        key
+    );
 
     useOnChange(() => {
         const delayDebounceFn = setTimeout(() => {
-            if (cookieStore) {
-                cookieStore.set(key, JSON.stringify(value));
-            } else {
-                document.cookie = "theme=" + JSON.stringify(value);
+            // If this is no receiveMessage, then it means that the change was made by this tab
+            if (!receiveMessage) {
+                console.log("Setting cookie", key, value);
+                void fetch("/api/set-cookie", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ key, value })
+                });
             }
         }, debounceTime);
 

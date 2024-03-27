@@ -17,9 +17,7 @@ export function modifyTheme(theme: Theme): Theme {
         }
     }
 
-    renderedTheme = config?.modifyTheme
-        ? config.modifyTheme(renderedTheme)
-        : renderedTheme;
+    config.modifyTheme(renderedTheme);
 
     return renderedTheme;
 }

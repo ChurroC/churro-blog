@@ -1,9 +1,9 @@
 "use client";
 
-import { getTheme } from "@/util/contexts/theme";
+import { useGetTheme } from "@/util/contexts/theme";
 
 export default function HomePage() {
-    const theme = getTheme();
+    const theme = useGetTheme();
 
     return (
         <>

@@ -6,7 +6,7 @@ import { useOnChange } from "./useOnChange.hook";
 export function useTabState<StateType>(
     initalState: StateType | (() => StateType),
     key: string
-): [StateType, React.Dispatch<React.SetStateAction<StateType>>] {
+): [StateType, React.Dispatch<React.SetStateAction<StateType>>, boolean] {
     const [state, setState] = useState<StateType>(initalState);
 
     const channel = useRef(new BroadcastChannel(key));
@@ -26,5 +26,5 @@ export function useTabState<StateType>(
         receiveMessage.current = false;
     }, [state]);
 
-    return [state, setState];
+    return [state, setState, receiveMessage.current];
 }

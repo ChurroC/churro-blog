@@ -26,7 +26,7 @@ export function ThemeProviderWithoutProps({
     const [theme, setTheme] = useCookies<Theme>(
         "theme",
         serverTheme,
-        config.debounce ?? 0
+        config.debounce
     );
 
     const themeReference = useReferenceState(theme);
