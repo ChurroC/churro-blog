@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { HeaderIcon } from "./headerIcon";
+import { HeaderIcon } from "@/components/header/icons/headerIcon";
 
 export function GithubIcon() {
     return (

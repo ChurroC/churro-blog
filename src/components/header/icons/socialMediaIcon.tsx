@@ -14,7 +14,7 @@
 //         </HeaderIcon>
 //     );
 // }
-import { HeaderIcon } from "./headerIcon";
+import { HeaderIcon } from "@/components/header/icons/headerIcon";
 import {
     Dropdown,
     DropdownContent,

@@ -1,8 +1,8 @@
-import { HeaderIcon } from "./headerIcon";
+import { HeaderIcon } from "@/components/header/icons/headerIcon";
 
 export function UploadIcon() {
     return (
-        <HeaderIcon className="px-2 border-0 text-white font-medium bg-neutral-900">
+        <HeaderIcon className="bg-neutral-900 px-2 font-medium text-white after:border-0 ">
             <button>Upload</button>
         </HeaderIcon>
     );

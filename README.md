@@ -40,6 +40,8 @@ Add millio.js after testing speed increase and maybe try the compiler too until 
 
 Maybe make packages for broadcast api with state between tabs also make a package for nextTheme but better with cookies.
 
+Maybe use react aria in the future but only for hooks so I can have custom components that are all web standard
+
 ## Info
 
 Just for myself but useHasMounted for when you dont want one component server rendred but children server rendered like theme context.

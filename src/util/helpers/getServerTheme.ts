@@ -6,10 +6,9 @@ import { modifyTheme } from "@/util/helpers/modifyTheme";
 type Theme = typeof config.defaultTheme;
 
 export function getThemeWithoutModification(): Theme {
-    const themeUnJSONed =
-        (cookies().get("theme")?.value as Theme) ?? config.defaultTheme;
+    const cookie = cookies().get("theme")?.value as Theme;
 
-    const theme = JSON.parse(themeUnJSONed) as Theme;
+    const theme = cookie ? (JSON.parse(cookie) as Theme) : config.defaultTheme;
 
     return theme;
 }

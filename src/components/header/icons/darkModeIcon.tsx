@@ -1,6 +1,6 @@
 "use client";
 
-import { HeaderIcon } from "./headerIcon";
+import { HeaderIcon } from "@/components/header/icons/headerIcon";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { ComputerDesktopIcon } from "@heroicons/react/20/solid";
 import {
@@ -22,10 +22,9 @@ export function DarkModeIcon() {
                 <HeaderIcon className="w-8">
                     {
                         {
-                            light: <SunIcon className="h-5 " />,
+                            light: <SunIcon className="h-5" />,
                             dark: <MoonIcon className="h-5" />,
-                            system: <ComputerDesktopIcon className="h-5" />,
-                            pink: <SunIcon className="h-5" />
+                            system: <ComputerDesktopIcon className="h-5" />
                         }[theme]
                     }
                 </HeaderIcon>
