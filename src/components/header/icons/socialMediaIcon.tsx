@@ -28,6 +28,7 @@ export function SocialMediaIcon() {
         <Dropdown>
             <DropdownTrigger>
                 <HeaderIcon className="w-8">
+                    {/* https://icons.getbootstrap.com/icons/instagram/ */}
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-5"

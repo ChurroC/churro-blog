@@ -23,17 +23,15 @@ export default async function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en" className={getServerTheme()} suppressHydrationWarning>
+        <html lang="en">
             <head>
                 <script src="/theme.js" type="text/javascript" />
                 <Script src="/serverRender.js" strategy="beforeInteractive" />
             </head>
             <body className={`${GeistSans.className} bg-white dark:bg-black`}>
-                <ThemeProvider>
-                    <Header />
-                    {children}
-                    <Footer />
-                </ThemeProvider>
+                <Header />
+                {children}
+                <Footer />
             </body>
         </html>
     );

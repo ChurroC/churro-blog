@@ -9,7 +9,7 @@ import { createContext, useContext } from "react";
 import { modifyTheme } from "@/util/helpers/modifyTheme";
 
 import { config } from "@/util/helpers/getConfig";
-export type Theme = typeof config.defaultTheme;
+type Theme = typeof config.defaultTheme;
 
 const ThemeContext = createContext<Theme>("" as Theme);
 const SetThemeContext = createContext<
@@ -26,7 +26,7 @@ export function ThemeProviderWithoutProps({
     const [theme, setTheme] = useCookies<Theme>(
         "theme",
         serverTheme,
-        config.debounce
+        config.debounce ?? 0
     );
 
     const themeReference = useReferenceState(theme);
@@ -52,20 +52,17 @@ export function ThemeProviderWithoutProps({
         <SetThemeContext.Provider value={setTheme}>
             <ThemeContext.Provider value={theme}>
                 {serverTheme === "system" && (
-                    <>
-                        <script
-                            dangerouslySetInnerHTML={{
-                                __html: `(() => {
-                                    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-                                        document.documentElement.className = "${config.systemDarkTheme}";
-                                    } else {
-                                        document.documentElement.className = "${config.systemLightTheme}";
-                                    }
-                                })()
-                                `
-                            }}
-                        />
-                    </>
+                    <script
+                        dangerouslySetInnerHTML={{
+                            __html: `(() => {
+                                if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+                                    document.documentElement.className = "${config.systemDarkTheme}";
+                                } else {
+                                    document.documentElement.className = "${config.systemLightTheme}";
+                                }
+                            })()`
+                        }}
+                    />
                 )}
                 {children}
             </ThemeContext.Provider>

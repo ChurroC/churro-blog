@@ -13,23 +13,28 @@ export function DropdownContext({
     return <DropdownProvider>{children}</DropdownProvider>;
 }
 
-export function DropdownTrigger({
+export function DropdownTrigger<
+    ElementType extends React.ElementType = "button"
+>({
     children,
-    className
-}: {
+    className,
+    as
+}: React.ComponentPropsWithoutRef<ElementType> & {
     children: React.ReactNode;
     className?: string;
+    as?: ElementType;
 }) {
+    const Component: React.ElementType = as ?? "button";
     const [isOpen, setIsOpen, referenceElement] = getDropdownContext();
 
     return (
-        <button
+        <Component
             className={className}
             onClick={() => setIsOpen(!isOpen)}
             ref={referenceElement}
         >
             {children}
-        </button>
+        </Component>
     );
 }
 

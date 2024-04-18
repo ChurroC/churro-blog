@@ -15,16 +15,15 @@ export function Header() {
             className="sticky top-0 flex w-full justify-center border-b border-neutral-200 bg-white/60 px-6 backdrop-blur
                     dark:border-gray-800 dark:bg-black/80"
         >
-            <nav className="flex w-full max-w-screen-xl justify-between">
+            <nav className="flex w-full max-w-screen-2xl justify-between">
                 {/* Left flexbox container */}
                 <div className="container flex h-16 items-center gap-6">
-                    <Link href={"/"}>
+                    <Link href={"/"} className="mr-4">
                         <Image
                             src={nextLogo}
                             height={32}
                             width={155}
                             alt="Picture of the Nextjs logo"
-                            className="mr-4"
                         />
                     </Link>
                     <MainNav
@@ -50,6 +49,7 @@ export function Header() {
                 </div>
                 {/* Right flexbox container */}
                 {/* Need light mode, lanugage, upload, github */}
+                {/* Have github in soicals then have a lang section */}
                 <div className="flex items-center justify-end gap-4">
                     <DarkModeIcon />
                     <SocialMediaIcon />

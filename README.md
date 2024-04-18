@@ -37,10 +37,15 @@ fix duplicate class issues
 chaneg theme conetxt to have context in get
 
 Add millio.js after testing speed increase and maybe try the compiler too until the react one "comes out"
+Also maybe use lightning css or tailwind next version
 
 Maybe make packages for broadcast api with state between tabs also make a package for nextTheme but better with cookies.
 
 Maybe use react aria in the future but only for hooks so I can have custom components that are all web standard
+
+maybe use select and option for dropdwon
+
+make newcomponentchurro optional
 
 ## Info
 
