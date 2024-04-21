@@ -7,13 +7,13 @@ const DropdownContext = createContext<
     [
         boolean,
         React.Dispatch<React.SetStateAction<boolean>>,
-        React.RefObject<HTMLButtonElement>
+        React.RefObject<HTMLElement>
     ]
 >([false, () => {}, { current: null }]);
 
 export function DropdownProvider({ children }: { children: React.ReactNode }) {
     const [isOpen, toggleIsOpen] = useToggle();
-    const referenceElement = useRef<HTMLButtonElement>(null);
+    const referenceElement = useRef<HTMLElement>(null);
 
     return (
         <DropdownContext.Provider
@@ -27,7 +27,7 @@ export function DropdownProvider({ children }: { children: React.ReactNode }) {
 export function getDropdownContext(): [
     boolean,
     React.Dispatch<React.SetStateAction<boolean>>,
-    React.RefObject<HTMLButtonElement>
+    React.RefObject<HTMLElement>
 ] {
     return use(DropdownContext);
 }

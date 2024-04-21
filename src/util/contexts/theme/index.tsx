@@ -5,4 +5,3 @@ export {
     useTheme,
     ThemeProviderWithoutProps
 } from "./theme.context";
-export { type Theme } from "./theme.context";

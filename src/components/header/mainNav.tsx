@@ -24,7 +24,7 @@ export function MainNav({
                             `/${segment.join("/")?.toUpperCase()}`
                                 ? "text-neutral-950"
                                 : "text-neutral-400"
-                        } text-sm `}
+                        } text-sm`}
                         key={i}
                     >
                         {title}
