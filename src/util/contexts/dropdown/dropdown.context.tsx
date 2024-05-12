@@ -1,14 +1,10 @@
 "use client";
 
 import { useToggle } from "@/util/hooks/useToggle";
-import { createContext, use, useRef } from "react";
+import { createContext, useContext, useRef } from "react";
 
 const DropdownContext = createContext<
-    [
-        boolean,
-        React.Dispatch<React.SetStateAction<boolean>>,
-        React.RefObject<HTMLElement>
-    ]
+    [boolean, () => void, React.RefObject<HTMLElement>]
 >([false, () => {}, { current: null }]);
 
 export function DropdownProvider({ children }: { children: React.ReactNode }) {
@@ -24,10 +20,10 @@ export function DropdownProvider({ children }: { children: React.ReactNode }) {
     );
 }
 
-export function getDropdownContext(): [
+export function useDropdownContext(): [
     boolean,
-    React.Dispatch<React.SetStateAction<boolean>>,
+    () => void,
     React.RefObject<HTMLElement>
 ] {
-    return use(DropdownContext);
+    return useContext(DropdownContext);
 }

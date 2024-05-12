@@ -1,1 +1,1 @@
-export { DropdownProvider, getDropdownContext } from "./dropdown.context";
+export { DropdownProvider, useDropdownContext } from "./dropdown.context";

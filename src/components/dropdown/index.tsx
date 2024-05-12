@@ -3,3 +3,4 @@ export {
     DropdownTrigger,
     DropdownContent
 } from "./dropdown";
+export { DropdownItem } from "./dropdownElement";

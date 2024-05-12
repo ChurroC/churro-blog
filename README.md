@@ -47,6 +47,8 @@ maybe use select and option for dropdwon
 
 make newcomponentchurro optional
 
+use zod instead of assertion when awating json if this even ahppens ehre
+
 ## Info
 
 Just for myself but useHasMounted for when you dont want one component server rendred but children server rendered like theme context.

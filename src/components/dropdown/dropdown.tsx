@@ -1,6 +1,6 @@
 "use client";
 
-import { DropdownProvider, getDropdownContext } from "@/util/contexts/dropdown";
+import { DropdownProvider, useDropdownContext } from "@/util/contexts/dropdown";
 import { InPortal } from "@/util/helpers/inPortal";
 import { DropdownElement } from "./dropdownElement";
 
@@ -25,12 +25,12 @@ export function DropdownTrigger<
     as?: ElementType;
 }) {
     const Component: React.ElementType = as ?? "button";
-    const [isOpen, setIsOpen, referenceElement] = getDropdownContext();
+    const [, toggleIsOpen, referenceElement] = useDropdownContext();
 
     return (
         <Component
             className={className}
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={() => toggleIsOpen()}
             ref={referenceElement}
         >
             {children}
@@ -41,13 +41,15 @@ export function DropdownTrigger<
 // I can use this instead to give my own customizations to do what basically Dropdown does in one
 // Use portal but have to have actual dropdown in a separate component to not run on server since inside Inportal there is NoSSRWrapper which causes children to run on client
 // children but not the parent or where it is defined
-export function DropdownContent(props: {
-    children: React.ReactNode;
-    className?: string;
-    noDefaultDropdownCSS?: boolean;
-    noDefaultChildrenCSS?: boolean;
-}) {
-    const [isOpen] = getDropdownContext();
+export function DropdownContent<ElementType extends React.ElementType = "ul">(
+    props: React.ComponentPropsWithoutRef<ElementType> & {
+        children: React.ReactNode;
+        className?: string;
+        resetCSS?: boolean;
+        as?: ElementType;
+    }
+) {
+    const [isOpen] = useDropdownContext();
 
     return isOpen ? (
         <InPortal>

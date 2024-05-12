@@ -2,38 +2,38 @@
 
 import { useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { getDropdownContext } from "@/util/contexts/dropdown";
+import { useDropdownContext } from "@/util/contexts/dropdown";
 import { useEventListener } from "@/util/hooks/useEventListener";
 
 // This is the actual dropdown
 export function DropdownElement<ElementType extends React.ElementType = "ul">({
     children,
     className,
-    noDefaultDropdownCSS = false,
+    resetCSS = false,
     as
 }: React.ComponentPropsWithoutRef<ElementType> & {
     children: React.ReactNode;
     className?: string;
-    noDefaultDropdownCSS?: boolean;
+    resetCSS?: boolean;
     as?: ElementType;
 }) {
     const Component: React.ElementType = as ?? "ul";
 
-    const [, setIsOpen, referenceElement] = getDropdownContext();
+    const [, setIsOpen, referenceElement] = useDropdownContext();
 
     // When we open this element we know that the referenceElement is not null
-    const [{ top, right }, setClientBounds] = useState(
-        referenceElement?.current?.getBoundingClientRect()!
+    const [{ top, right, width }, setClientBounds] = useState(
+        referenceElement.current!.getBoundingClientRect()
     );
 
     useEventListener("resize", () => {
-        setClientBounds(referenceElement?.current?.getBoundingClientRect()!);
+        setClientBounds(referenceElement.current!.getBoundingClientRect());
     });
 
     const content = useRef<HTMLElement>(null);
     useEventListener("click", ({ target }: Event) => {
-        if (content.current && !content.current.contains(target as Node)) {
-            setIsOpen(false);
+        if (!content.current?.contains(target as Node)) {
+            setIsOpen();
         }
     });
 
@@ -42,12 +42,13 @@ export function DropdownElement<ElementType extends React.ElementType = "ul">({
     return (
         <Component
             className={twMerge(
-                !noDefaultDropdownCSS &&
-                    "fixed left-0 top-0 flex w-32 flex-col rounded-md border border-neutral-200 bg-white p-1 shadow-md",
+                "fixed left-0 top-0",
+                !resetCSS &&
+                    "fixed flex w-fit flex-col rounded-md border border-neutral-200 bg-white p-1 shadow-md",
                 className
             )}
             style={{
-                transform: `translate(${right - referenceElement.current.getBoundingClientRect().width}px, ${top + 40}px)`
+                transform: `translate(${right - width}px, ${top + 40}px)`
             }}
             ref={content}
         >
@@ -59,21 +60,22 @@ export function DropdownElement<ElementType extends React.ElementType = "ul">({
 export function DropdownItem<ElementType extends React.ElementType = "li">({
     children,
     className,
-    as,
-    ...props
+    resetCSS = false,
+    as
 }: React.ComponentPropsWithoutRef<ElementType> & {
     children: React.ReactNode;
     className?: string;
+    resetCSS?: boolean;
     as?: ElementType;
 }) {
     const Component: React.ElementType = as ?? "li";
     return (
         <Component
             className={twMerge(
-                "rounded-sm px-2 py-1.5 text-left text-sm hover:bg-zinc-100",
+                !resetCSS &&
+                    "flex items-center justify-between rounded-sm px-2 py-1.5 text-left text-sm hover:bg-zinc-100",
                 className
             )}
-            {...props}
         >
             {children}
         </Component>
