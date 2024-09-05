@@ -5,11 +5,11 @@ import { GeistSans } from "geist/font/sans";
 // GeistMono: --font-geist-mono
 // font-family: var(--font-geist-mono) as an example
 
+import { ThemeProvider, getServerTheme } from "next-server-theme/server";
+
 import Script from "next/script";
 import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { ThemeProvider } from "@/util/contexts/theme/server";
-import { getServerTheme } from "@/util/helpers/getServerTheme";
 
 export const metadata = {
     title: "Create T3 App",
@@ -25,13 +25,14 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <head>
-                <script src="/theme.js" type="text/javascript" />
                 <Script src="/serverRender.js" strategy="beforeInteractive" />
             </head>
-            <body className={`${GeistSans.className} bg-white dark:bg-black`}>
-                <Header />
-                {children}
-                <Footer />
+            <body className={`${getServerTheme()} ${GeistSans.className} bg-white dark:bg-black`}>
+            <ThemeProvider themes={["system", "dark", "light"]} element="body">
+                    <Header />
+                    {children}
+                    <Footer />
+                </ThemeProvider>
             </body>
         </html>
     );
