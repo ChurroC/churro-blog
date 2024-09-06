@@ -11,40 +11,53 @@ import {
 import { useGetTheme, useSetTheme } from "@/util/contexts/theme";
 import { type Theme } from "@/util/contexts/theme";
 import { twMerge } from "tailwind-merge";
+import {Button, Menu, MenuItem, MenuTrigger, Popover} from 'react-aria-components';
 
 // Client component since local storage
 export function DarkModeIcon() {
     const [theme, setTheme] = [useGetTheme(), useSetTheme()];
 
     return (
-        <Dropdown>
-            <DropdownTrigger>
-                <HeaderIcon className="w-8">
-                    {
-                        {
-                            light: <SunIcon className="h-5" />,
-                            dark: <MoonIcon className="h-5" />,
-                            system: <ComputerDesktopIcon className="h-5" />
-                        }[theme]
-                    }
-                </HeaderIcon>
-            </DropdownTrigger>
-            <DropdownContent>
-                {(["light", "dark", "system"] as Theme[]).map(themeOption => {
-                    return (
-                        <li
-                            key={themeOption}
-                            onClick={() => setTheme(themeOption)}
-                            className={twMerge(
-                                "capitalize text-neutral-400",
-                                theme === themeOption && "text-neutral-950"
-                            )}
-                        >
-                            {themeOption}
-                        </li>
-                    );
-                })}
-            </DropdownContent>
-        </Dropdown>
+        // <Dropdown>
+        //     <DropdownTrigger>
+        //         <HeaderIcon className="w-8">
+        //             {
+        //                 {
+        //                     light: <SunIcon className="h-5" />,
+        //                     dark: <MoonIcon className="h-5" />,
+        //                     system: <ComputerDesktopIcon className="h-5" />
+        //                 }[theme]
+        //             }
+        //         </HeaderIcon>
+        //     </DropdownTrigger>
+        //     <DropdownContent>
+        //         {(["light", "dark", "system"] as Theme[]).map(themeOption => {
+        //             return (
+        //                 <li
+        //                     key={themeOption}
+        //                     onClick={() => setTheme(themeOption)}
+        //                     className={twMerge(
+        //                         "capitalize text-neutral-400",
+        //                         theme === themeOption && "text-neutral-950"
+        //                     )}
+        //                 >
+        //                     {themeOption}
+        //                 </li>
+        //             );
+        //         })}
+        //     </DropdownContent>
+        // </Dropdown>
+        <MenuTrigger>
+  <Button aria-label="Menu">☰</Button>
+  <Popover>
+    <Menu>
+      <MenuItem onAction={() => alert('open')}>Open</MenuItem>
+      <MenuItem onAction={() => alert('rename')}>Rename…</MenuItem>
+      <MenuItem onAction={() => alert('duplicate')}>Duplicate</MenuItem>
+      <MenuItem onAction={() => alert('share')}>Share…</MenuItem>
+      <MenuItem onAction={() => alert('delete')}>Delete…</MenuItem>
+    </Menu>
+  </Popover>
+</MenuTrigger>
     );
 }

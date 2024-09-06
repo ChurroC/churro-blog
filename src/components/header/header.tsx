@@ -30,7 +30,7 @@ export function Header() {
                         routes={[
                             {
                                 title: "Docs",
-                                href: "/test/1"
+                                href: "/docs"
                             },
                             {
                                 title: "Teams 23-24",

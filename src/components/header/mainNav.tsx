@@ -16,7 +16,6 @@ export function MainNav({
     return (
         <>
             {routes.map(({ title, href }, i) => {
-                    {console.log(title, href)}
                 return (
                     <Link
                         href={href}
