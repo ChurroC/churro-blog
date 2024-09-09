@@ -12,6 +12,8 @@ import { useGetTheme, useSetTheme } from "@/util/contexts/theme";
 import { type Theme } from "@/util/contexts/theme";
 import { twMerge } from "tailwind-merge";
 import {Button, Menu, MenuItem, MenuTrigger, Popover} from 'react-aria-components';
+import {FocusScope} from 'react-aria';
+
 
 // Client component since local storage
 export function DarkModeIcon() {
@@ -47,17 +49,32 @@ export function DarkModeIcon() {
         //         })}
         //     </DropdownContent>
         // </Dropdown>
-        <MenuTrigger>
-  <Button aria-label="Menu">☰</Button>
-  <Popover>
-    <Menu>
-      <MenuItem onAction={() => alert('open')}>Open</MenuItem>
-      <MenuItem onAction={() => alert('rename')}>Rename…</MenuItem>
-      <MenuItem onAction={() => alert('duplicate')}>Duplicate</MenuItem>
-      <MenuItem onAction={() => alert('share')}>Share…</MenuItem>
-      <MenuItem onAction={() => alert('delete')}>Delete…</MenuItem>
-    </Menu>
-  </Popover>
-</MenuTrigger>
+        // <MenuTrigger>
+        //   <Button aria-label="Menu">☰</Button>
+        //   <Popover>
+        //     <Menu>
+        //       <MenuItem onAction={() => alert('open')}>Open</MenuItem>
+        //       <MenuItem onAction={() => alert('rename')}>Rename…</MenuItem>
+        //       <MenuItem onAction={() => alert('duplicate')}>Duplicate</MenuItem>
+        //       <MenuItem onAction={() => alert('share')}>Share…</MenuItem>
+        //       <MenuItem onAction={() => alert('delete')}>Delete…</MenuItem>
+        //     </Menu>
+        //   </Popover>
+        // </MenuTrigger>
+        
+        <>
+          <MenuTrigger>
+          <Button aria-label="Menu">☰</Button>
+          <Popover isNonModal>
+            <Menu>
+              <MenuItem onAction={() => alert('open')}>Open</MenuItem>
+              <MenuItem onAction={() => alert('rename')}>Rename…</MenuItem>
+              <MenuItem onAction={() => alert('duplicate')}>Duplicate</MenuItem>
+              <MenuItem onAction={() => alert('share')}>Share…</MenuItem>
+              <MenuItem onAction={() => alert('delete')}>Delete…</MenuItem>
+            </Menu>
+          </Popover>
+        </MenuTrigger>
+      </>
     );
 }
