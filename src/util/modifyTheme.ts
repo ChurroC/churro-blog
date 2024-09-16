@@ -1,4 +1,4 @@
-import { config } from "@/util/helpers/getConfig";
+import { config } from "@/util/getConfig";
 import { isClient } from "./isClient";
 
 type Theme = typeof config.defaultTheme;

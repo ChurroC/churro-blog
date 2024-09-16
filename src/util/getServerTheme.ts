@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 
-import { config } from "@/util/helpers/getConfig";
-import { modifyTheme } from "@/util/helpers/modifyTheme";
+import { config } from "@/util/getConfig";
+import { modifyTheme } from "@/util/modifyTheme";
 
 type Theme = typeof config.defaultTheme;
 

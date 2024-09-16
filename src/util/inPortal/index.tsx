@@ -1,5 +1,5 @@
-import { NoSSRWrapper } from "@/util/helpers/noSSRWrapper";
-import { InPortal as Portal } from "@/util/helpers/inPortal/inPortal";
+import { NoSSRWrapper } from "@/util/noSSRWrapper";
+import { InPortal as Portal } from "@/util/inPortal/inPortal";
 
 export function InPortal({ children }: { children: React.ReactNode }) {
     return (

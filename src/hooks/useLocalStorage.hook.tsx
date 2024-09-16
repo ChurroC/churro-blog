@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useOnChange } from "./useOnChange.hook";
-import { useReferenceState } from "@/util/hooks/useReferenceState.hook";
+import { useReferenceState } from "@/hooks/useReferenceState.hook";
 
 export function useLocalStorage<ValueType>(
     key: string,

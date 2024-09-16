@@ -3,7 +3,6 @@
 import { HeaderIcon } from "@/components/header/icons/headerIcon";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { ComputerDesktopIcon } from "@heroicons/react/20/solid";
-import { twMerge } from "tailwind-merge";
 import { useTheme, type Theme } from "next-server-theme";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 
