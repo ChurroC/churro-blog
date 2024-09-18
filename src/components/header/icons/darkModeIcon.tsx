@@ -4,15 +4,20 @@ import { HeaderIcon } from "@/components/header/icons/headerIcon";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { ComputerDesktopIcon } from "@heroicons/react/20/solid";
 import { useTheme, type Theme } from "next-server-theme";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger
+} from "@/shadcn/ui/dropdown-menu";
 
 // Client component since local storage
 export function DarkModeIcon() {
     const [theme, setTheme] = useTheme();
 
     return (
-        <DropdownMenu.Root modal={false}>
-            <DropdownMenu.Trigger>
+        <DropdownMenu modal={false}>
+            <DropdownMenuTrigger>
                 <HeaderIcon className="w-8">
                     {
                         {
@@ -22,27 +27,22 @@ export function DarkModeIcon() {
                         }[theme]
                     }
                 </HeaderIcon>
-            </DropdownMenu.Trigger>
-            <DropdownMenu.Portal>
-                <DropdownMenu.Content className="flex w-fit flex-col rounded-md border border-neutral-200 bg-white p-1 shadow-md">
-                    {(["light", "dark", "system"] as Theme[]).map(
-                        themeOption => {
-                            return (
-                                <DropdownMenu.Item
-                                    key={themeOption}
-                                    onClick={() => setTheme(themeOption)}
-                                    className={`flex items-center justify-between rounded-sm px-2 py-1.5 text-left text-sm capitalize text-neutral-400 hover:bg-zinc-100 ${
-                                        theme === themeOption &&
-                                        "text-neutral-950"
-                                    }`}
-                                >
-                                    {themeOption}
-                                </DropdownMenu.Item>
-                            );
-                        }
-                    )}
-                </DropdownMenu.Content>
-            </DropdownMenu.Portal>
-        </DropdownMenu.Root>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent sideOffset={7} align="end">
+                {(["light", "dark", "system"] as Theme[]).map(themeOption => {
+                    return (
+                        <DropdownMenuItem
+                            key={themeOption}
+                            onClick={() => setTheme(themeOption)}
+                            className={`flex items-center justify-between rounded-sm px-2 py-1.5 text-left text-sm capitalize text-neutral-400 hover:bg-zinc-100 ${
+                                theme === themeOption && "text-neutral-950"
+                            }`}
+                        >
+                            {themeOption}
+                        </DropdownMenuItem>
+                    );
+                })}
+            </DropdownMenuContent>
+        </DropdownMenu>
     );
 }
