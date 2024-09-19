@@ -52,9 +52,9 @@ export function Header() {
                 {/* Have github in soicals then have a lang section */}
                 <div className="flex items-center justify-end gap-4">
                     <DarkModeIcon />
-                    <SocialMediaIcon />
+                    {/* <SocialMediaIcon />
                     <GithubIcon />
-                    <UploadIcon />
+                    <UploadIcon /> */}
                 </div>
             </nav>
         </header>

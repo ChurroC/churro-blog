@@ -1,6 +1,6 @@
 "use client";
 
-import { HeaderIcon } from "@/components/header/icons/headerIcon";
+import headerCSS from "@/components/header/icons/headerCSS";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { ComputerDesktopIcon } from "@heroicons/react/20/solid";
 import { useTheme, type Theme } from "next-server-theme";
@@ -10,6 +10,15 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger
 } from "@/shadcn/ui/dropdown-menu";
+import { twMerge } from "tailwind-merge";
+
+console.log(
+    "relative flex size-8 items-center justify-center rounded-md text-neutral-900 transition" +
+        " before:absolute before:inset-0 before:rounded-md before:border before:border-gray-300 before:transition" +
+        " hover:before:scale-110",
+    headerCSS
+);
+console.log;
 
 // Client component since local storage
 export function DarkModeIcon() {
@@ -17,16 +26,20 @@ export function DarkModeIcon() {
 
     return (
         <DropdownMenu modal={false}>
-            <DropdownMenuTrigger>
-                <HeaderIcon className="w-8">
+            <DropdownMenuTrigger
+                className={
+                    "relative flex size-8 items-center justify-center rounded-md text-neutral-900 transition" +
+                    " before:absolute before:inset-0 before:rounded-md before:border before:border-gray-300 before:transition" +
+                    " hover:before:scale-110"
+                }
+            >
+                {
                     {
-                        {
-                            light: <SunIcon className="h-5" />,
-                            dark: <MoonIcon className="h-5" />,
-                            system: <ComputerDesktopIcon className="h-5" />
-                        }[theme]
-                    }
-                </HeaderIcon>
+                        light: <SunIcon className="h-5" />,
+                        dark: <MoonIcon className="h-5" />,
+                        system: <ComputerDesktopIcon className="h-5" />
+                    }[theme]
+                }
             </DropdownMenuTrigger>
             <DropdownMenuContent sideOffset={7} align="end">
                 {(["light", "dark", "system"] as Theme[]).map(themeOption => {
@@ -46,3 +59,5 @@ export function DarkModeIcon() {
         </DropdownMenu>
     );
 }
+("relative flex h-8 items-center justify-center rounded-md text-neutral-900 transition before:absolute before:inset-0 before:rounded-md before:border before:border-gray-300 before:transition hover:before:scale-110 w-8");
+("relative flex h-8 items-center justify-center rounded-md text-neutral-900 transition before:absolute before:inset-0 before:rounded-md before:border before:border-gray-300 before:transition hover:before:scale-110 w-8");

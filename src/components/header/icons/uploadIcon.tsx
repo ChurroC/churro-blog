@@ -1,12 +1,11 @@
-import { HeaderIcon } from "@/components/header/icons/headerIcon";
+import headerCSS from "@/components/header/icons/headerCSS";
 import { Button } from "@/shadcn/ui/button";
+import { twMerge } from "tailwind-merge";
 
 export function UploadIcon() {
     return (
         <>
-            <HeaderIcon className="bg-neutral-900 px-2 font-medium text-white after:border-0 ">
-                <button>Upload</button>
-            </HeaderIcon>
+            <button className={twMerge(headerCSS, "w-8")}>Upload</button>
             <Button className="h-8 px-3 text-base font-medium">Upload</Button>
         </>
     );
