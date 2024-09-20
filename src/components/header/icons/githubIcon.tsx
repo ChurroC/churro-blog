@@ -1,13 +1,9 @@
 import Link from "next/link";
 import headerCSS from "@/components/header/icons/headerCSS";
-import { twMerge } from "tailwind-merge";
 
 export function GithubIcon() {
     return (
-        <Link
-            href="https://github.com/ChurroC/robotics"
-            className={twMerge(headerCSS, "w-8")}
-        >
+        <Link href="https://github.com/ChurroC/robotics" className={headerCSS}>
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 98 98"
