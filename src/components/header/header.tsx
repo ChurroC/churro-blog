@@ -53,7 +53,7 @@ export function Header() {
                 <div className="flex items-center justify-end gap-4">
                     <DarkModeIcon />
                     {/* <SocialMediaIcon /> */}
-                    <GithubIcon />
+                    {/* <GithubIcon /> */}
                     <UploadIcon />
                 </div>
             </nav>
