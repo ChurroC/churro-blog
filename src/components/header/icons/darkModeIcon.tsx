@@ -22,7 +22,12 @@ export function DarkModeIcon() {
 
     return (
         <DropdownMenu modal={false}>
-            <DropdownMenuTrigger>
+            <DropdownMenuTrigger
+                asChild
+                onPointerDown={() => {
+                    console.log("sss");
+                }}
+            >
                 <HeaderButton>
                     {
                         {
