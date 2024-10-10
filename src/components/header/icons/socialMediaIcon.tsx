@@ -1,4 +1,4 @@
-import headerCSS from "@/components/header/icons/headerCSS";
+import { HeaderButton } from "@/components/header/icons/HeaderButton";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -12,10 +12,12 @@ import { twMerge } from "tailwind-merge";
 export function SocialMediaIcon() {
     return (
         <DropdownMenu modal={false}>
-            <DropdownMenuTrigger className={twMerge(headerCSS, "w-8")}>
-                {/* https://icons.getbootstrap.com/icons/instagram/ */}
-                <InstagramLogoIcon className="size-5" viewBox="0 0 15 15" />
-            </DropdownMenuTrigger>
+            <HeaderButton asChild>
+                <DropdownMenuTrigger>
+                    {/* https://icons.getbootstrap.com/icons/instagram/ */}
+                    <InstagramLogoIcon className="size-5" viewBox="0 0 15 15" />
+                </DropdownMenuTrigger>
+            </HeaderButton>
             <DropdownMenuContent sideOffset={7} align="end">
                 {["Instagram", "Facebook", "Youtube"].map(socialMedia => {
                     return (

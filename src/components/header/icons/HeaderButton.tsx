@@ -1,12 +1,7 @@
 import { Button } from "@/shadcn/ui/button";
 import { twJoin } from "tailwind-merge";
 
-export function HeaderButton({
-    children,
-    ...props
-}: {
-    children: React.ReactNode;
-}) {
+export function HeaderButton(props: React.ComponentProps<typeof Button>) {
     return (
         <Button
             variant={"ghost"}
@@ -16,8 +11,7 @@ export function HeaderButton({
                 "before:absolute before:inset-0 before:rounded-md before:border before:border-gray-300 before:transition",
                 "hover:bg-white hover:before:scale-110"
             )}
-        >
-            {children}
-        </Button>
+            {...props}
+        />
     );
 }

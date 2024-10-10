@@ -2,7 +2,7 @@
 
 import { twJoin } from "tailwind-merge";
 
-import { HeaderButton } from "@/components/header/icons/headerCSS";
+import { HeaderButton } from "@/components/header/icons/HeaderButton";
 
 import { MoonIcon, SunIcon } from "@heroicons/react/24/outline";
 import { ComputerDesktopIcon } from "@heroicons/react/20/solid";
@@ -22,13 +22,8 @@ export function DarkModeIcon() {
 
     return (
         <DropdownMenu modal={false}>
-            <DropdownMenuTrigger
-                asChild
-                onPointerDown={() => {
-                    console.log("sss");
-                }}
-            >
-                <HeaderButton>
+            <HeaderButton asChild>
+                <DropdownMenuTrigger>
                     {
                         {
                             light: <SunIcon className="h-5" />,
@@ -36,8 +31,8 @@ export function DarkModeIcon() {
                             system: <ComputerDesktopIcon className="h-5" />
                         }[theme]
                     }
-                </HeaderButton>
-            </DropdownMenuTrigger>
+                </DropdownMenuTrigger>
+            </HeaderButton>
             <DropdownMenuContent sideOffset={7} align="end">
                 {(["light", "dark", "system"] as Theme[]).map(themeOption => {
                     return (
