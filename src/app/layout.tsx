@@ -26,9 +26,15 @@ export default async function RootLayout({
         <html lang="en">
             <head>
                 <Script src="/serverRender.js" strategy="beforeInteractive" />
+                <Script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/7.*/viewer3D.min.js"></Script>
             </head>
-            <body className={`${getServerTheme()} ${GeistSans.className} bg-white dark:bg-black`}>
-            <ThemeProvider themes={["system", "dark", "light"]} element="body">
+            <body
+                className={`${getServerTheme()} ${GeistSans.className} bg-white dark:bg-black`}
+            >
+                <ThemeProvider
+                    themes={["system", "dark", "light"]}
+                    element="body"
+                >
                     <Header />
                     {children}
                     <Footer />
